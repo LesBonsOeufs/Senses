@@ -5,17 +5,6 @@ using UnityEngine.UI;
 public static class Extension_GridLayoutGroup
 {
     /// <summary>
-    /// Forces the update of all content positions
-    /// </summary>
-    public static void Refresh(this GridLayoutGroup gridLayout)
-    {
-        gridLayout.CalculateLayoutInputHorizontal();
-        gridLayout.CalculateLayoutInputVertical();
-        gridLayout.SetLayoutHorizontal();
-        gridLayout.SetLayoutVertical();
-    }
-
-    /// <summary>
     /// WARNING! Destroys child transforms!
     /// </summary>
     /// <param name="cellGenerationCallback">Needs to be used for instantiating. Parameters are x & y grid positions.</param>
