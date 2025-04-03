@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 0
+  testDataInfo: {fileID: 11400000, guid: cd87b0ef323d4e243a6545db88361b17, type: 2}
   interpreterTmp: {fileID: 6627754629239340237}
 --- !u!114 &6627754629239340237 stripped
 MonoBehaviour:

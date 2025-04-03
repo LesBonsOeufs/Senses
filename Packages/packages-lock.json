@@ -368,6 +368,15 @@
         "com.unity.render-pipelines.core": "17.0.3"
       }
     },
+    "www.nulltale.asciifx": {
+      "version": "https://github.com/NullTale/AsciiFx.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "14.0.6"
+      },
+      "hash": "89df8002fcd2d53c2647d9bbaf9ff5994bf14f3e"
+    },
     "www.nulltale.ditherfx": {
       "version": "https://github.com/NullTale/DitherFx.git",
       "depth": 0,

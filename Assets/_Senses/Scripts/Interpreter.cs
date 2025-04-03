@@ -6,6 +6,8 @@ namespace Root
 {
     public class Interpreter : Singleton<Interpreter>
     {
+        [SerializeField] private SynonymDatabaseInfo testDataInfo;
+
         [SerializeField] private TextMeshProUGUI interpreterTmp;
 
         public async Awaitable<string> Execute(string input)
@@ -15,7 +17,18 @@ namespace Root
                 lWaitingTextCTS.Token,
                 destroyCancellationToken);
 
-            Awaitable lWaitingText = WaitingText(lLinkedCTS.Token);
+            string lWaitingPrefix = "";
+
+            bool lConnect;
+            if (testDataInfo.ContainsSynonymOf(input, "connect"))
+            {
+                lConnect = true;
+                lWaitingPrefix = "Connecting";
+            }
+            else
+                lConnect = false;
+
+            Awaitable lWaitingText = WaitingText(lLinkedCTS.Token, lWaitingPrefix);
 
             try
             {
@@ -27,10 +40,10 @@ namespace Root
                 await lWaitingText; //Ensure cleanup
             }
             
-            return input;
+            return lConnect ? "Connected" : "No internet connection";
         }
 
-        public async Awaitable WaitingText(CancellationToken cts)
+        private async Awaitable WaitingText(CancellationToken cts, string prefix = "")
         {
             string[] lLoopingTexts = { ".", "..", "..." };
             int lIndex = 0;
@@ -39,9 +52,9 @@ namespace Root
             {
                 while (!cts.IsCancellationRequested)
                 {
-                    interpreterTmp.text = lLoopingTexts[lIndex++];
+                    interpreterTmp.text = $"{prefix}{lLoopingTexts[lIndex++]}";
                     lIndex %= lLoopingTexts.Length;
-                    await Awaitable.WaitForSecondsAsync(0.5f, destroyCancellationToken);
+                    await Awaitable.WaitForSecondsAsync(0.2f, destroyCancellationToken);
                 }
             }
             finally

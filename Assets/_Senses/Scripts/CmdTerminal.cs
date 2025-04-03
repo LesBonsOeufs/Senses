@@ -17,7 +17,7 @@ namespace Root
         private void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
-            directoryPrefixTmp.text = "C:\\Test>";
+            directoryPrefixTmp.text = "C:\\Users\\PC>";
             inputField.onSubmit.AddListener(InputField_OnSubmit);
         }
 
@@ -25,15 +25,17 @@ namespace Root
         {
             if (inputField.text != "")
             {
-                inputField.enabled = false;
                 string lText = inputField.text;
-                inputField.text = "";
 
+                inputField.enabled = false;
                 string lResult = await Interpreter.Instance.Execute(lText);
                 inputField.enabled = true;
+                inputField.text = "";
 
-                Instantiate(writtenLinePrefab, transform).text = $"{directoryPrefixTmp.text}{lResult}";
+                Instantiate(writtenLinePrefab, transform).text = $"{directoryPrefixTmp.text}{lText}";
+                Instantiate(writtenLinePrefab, transform).text = lResult;
                 directoryPrefixTmp.transform.SetAsLastSibling();
+                Interpreter.Instance.transform.SetAsLastSibling();
             }
 
             inputField.ActivateInputField();
