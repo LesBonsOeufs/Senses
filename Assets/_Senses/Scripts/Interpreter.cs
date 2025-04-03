@@ -6,7 +6,7 @@ namespace Root
 {
     public class Interpreter : Singleton<Interpreter>
     {
-        [SerializeField] private SynonymDatabaseInfo testDataInfo;
+        public const string USER_INPUT_TAG = "[input]";
 
         [SerializeField] private TextMeshProUGUI interpreterTmp;
 
@@ -19,14 +19,12 @@ namespace Root
 
             string lWaitingPrefix = "";
 
-            bool lConnect;
-            if (testDataInfo.ContainsSynonymOf(input, "connect"))
-            {
-                lConnect = true;
-                lWaitingPrefix = "Connecting";
-            }
-            else
-                lConnect = false;
+            bool lKeywordAccepted = NodeManager.Instance.TryRouteKeyword(input);
+            //If accepted, new node. If not, same node.
+            NodeInfo lNode = NodeManager.Instance.Current;
+
+            if (lKeywordAccepted)
+                lWaitingPrefix = Format(lNode.WarpingText, input);
 
             Awaitable lWaitingText = WaitingText(lLinkedCTS.Token, lWaitingPrefix);
 
@@ -40,7 +38,7 @@ namespace Root
                 await lWaitingText; //Ensure cleanup
             }
             
-            return lConnect ? "Connected" : "No internet connection";
+            return Format(lKeywordAccepted ? lNode.WelcomeText : lNode.KeywordFailText, input);
         }
 
         private async Awaitable WaitingText(CancellationToken cts, string prefix = "")
@@ -61,6 +59,11 @@ namespace Root
             {
                 interpreterTmp.text = "";
             }
+        }
+
+        private string Format(string text, string userInput)
+        {
+            return text.Replace(USER_INPUT_TAG, "<color=green>" + userInput + "</color>");
         }
     }
 }
