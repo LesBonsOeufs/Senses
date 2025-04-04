@@ -3,18 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags:
-  - SurfaceGraph_AddVertices
-  - Monster
-  - SurfaceGraph_Skip
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - IgnoredByMonster
+  - 
   - Water
   - UI
-  - Monster
+  - 
   - 
   - 
   - 

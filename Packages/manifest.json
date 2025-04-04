@@ -2,6 +2,7 @@
   "dependencies": {
     "com.halodi.halodi-unity-package-registry-manager": "https://github.com/Halodi/halodi-unity-package-registry-manager.git",
     "com.itisnajim.socketiounity": "https://github.com/itisnajim/SocketIOUnity.git",
+    "com.kirurobo.uniwinc": "https://github.com/kirurobo/UniWindowController.git#upm",
     "com.unity.2d.animation": "10.1.4",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.navigation": "2.0.5",
