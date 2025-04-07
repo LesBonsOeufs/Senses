@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Windows;
 
 namespace Root
 {
@@ -16,18 +15,18 @@ namespace Root
             Current = startNode;
         }
 
-        public bool TryRouteKeyword(string keyword)
+        public NodeInfo TryRouteKeyword(string keyword)
         {
-            foreach (var route in Current.Routes)
+            foreach (Route lRoute in Current.Routes)
             {
-                if (synonymDatabase.ContainsSynonymOf(keyword, route.accessKeyword))
+                if (synonymDatabase.ContainsSynonymOf(keyword, lRoute.accessKeyword))
                 {
-                    Current = route.to;
-                    return true;
+                    Current = lRoute.to;
+                    return Current;
                 }
             }
 
-            return false;
+            return null;
         }
     }
 }

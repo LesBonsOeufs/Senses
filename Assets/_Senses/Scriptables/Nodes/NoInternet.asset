@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029dcfc20036f9d47b4ba2666c503ab6, type: 3}
   m_Name: NoInternet
   m_EditorClassIdentifier: 
-  <Routes>k__BackingField:
-  - to: {fileID: 11400000, guid: 62c81acfefc6a894fb67e91dd75fb1e4, type: 2}
-    accessKeyword: connect
-  <KeywordFailText>k__BackingField: No connection
+  <IsWarpInstant>k__BackingField: 1
   <WarpingText>k__BackingField: 
-  <WelcomeText>k__BackingField: 
+  <AccessText>k__BackingField: 
+  <IsPositional>k__BackingField: 1
+  <Routes>k__BackingField:
+  - accessKeyword: connect
+    to: {fileID: 11400000, guid: 62c81acfefc6a894fb67e91dd75fb1e4, type: 2}
+  <KeywordFailText>k__BackingField: No connection. Please enter suitable command.

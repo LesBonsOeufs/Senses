@@ -19,18 +19,20 @@ namespace Root
 
             string lWaitingPrefix = "";
 
-            bool lKeywordAccepted = NodeManager.Instance.TryRouteKeyword(input);
-            //If accepted, new node. If not, same node.
-            NodeInfo lNode = NodeManager.Instance.Current;
+            //New node if accepted. If not, null
+            NodeInfo lNode = NodeManager.Instance.TryRouteKeyword(input);
+            bool lKeywordAccepted = lNode != null;
 
             if (lKeywordAccepted)
                 lWaitingPrefix = Format(lNode.WarpingText, input);
+            else
+                lNode = NodeManager.Instance.Current;
 
             Awaitable lWaitingText = WaitingText(lLinkedCTS.Token, lWaitingPrefix);
 
             try
             {
-                await Awaitable.WaitForSecondsAsync(5f, lLinkedCTS.Token);
+                await Awaitable.WaitForSecondsAsync(3f, lLinkedCTS.Token);
             }
             finally
             {
@@ -38,7 +40,7 @@ namespace Root
                 await lWaitingText; //Ensure cleanup
             }
             
-            return Format(lKeywordAccepted ? lNode.WelcomeText : lNode.KeywordFailText, input);
+            return Format(lKeywordAccepted ? lNode.AccessText : lNode.KeywordFailText, input);
         }
 
         private async Awaitable WaitingText(CancellationToken cts, string prefix = "")
@@ -63,7 +65,7 @@ namespace Root
 
         private string Format(string text, string userInput)
         {
-            return text.Replace(USER_INPUT_TAG, "<color=green>" + userInput + "</color>");
+            return text.Replace(USER_INPUT_TAG, userInput);
         }
     }
 }

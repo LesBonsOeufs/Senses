@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System;
 using UnityEngine;
 
@@ -6,22 +7,28 @@ namespace Root
     [CreateAssetMenu]
     public class NodeInfo : ScriptableObject
     {
-        [field: SerializeField] public Route[] Routes { get; private set; }
+        [field: SerializeField, Tooltip("Removes warp loading duration")]
+        public bool IsWarpInstant { get; private set; } = false;
 
-        [field: SerializeField, Tooltip("Text to show while warping to this node")] 
+        [field: SerializeField, HideIf(nameof(IsWarpInstant)), ResizableTextArea, Tooltip("Text to show while warping to this node")] 
         public string WarpingText { get; private set; }
 
-        [field: SerializeField, Tooltip("Text to show when arriving to this node")] 
-        public string WelcomeText { get; private set; }
+        [field: SerializeField, ResizableTextArea, Tooltip("Text to show when arriving to this node")] 
+        public string AccessText { get; private set; }
 
-        [field: SerializeField, Tooltip("Text to show if keyword has no related routes")]
+        [field: SerializeField, Tooltip("If false, Node is not used for position: it will not change \"current node\" when accessed.")]
+        public bool IsPositional { get; private set; } = true;
+
+        [field: SerializeField, ShowIf(nameof(IsPositional))] public Route[] Routes { get; private set; }
+
+        [field: SerializeField, ShowIf(nameof(IsPositional)), ResizableTextArea, Tooltip("Text to show if keyword has no related routes from this node")]
         public string KeywordFailText { get; private set; }
     }
 
     [Serializable]
     public class Route
     {
-        public NodeInfo to;
         public string accessKeyword;
+        public NodeInfo to;
     }
 }
