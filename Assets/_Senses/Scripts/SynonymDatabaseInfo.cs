@@ -9,12 +9,14 @@ namespace Root
     {
         [SerializeField] private SerializedDictionary<string, string[]> synonyms;
 
-        public bool ContainsSynonymOf(string inputText, string synonymKey)
+        public bool IsSynonymOf(string inputText, string synonymKey)
         {
             string[] lTokenized = inputText.Split(new char[] { ' ', '.', '?' });
-            string[] lSynonyms = synonyms[synonymKey];
-            return lTokenized.Any(word => string.Equals(word, synonymKey, System.StringComparison.OrdinalIgnoreCase) || 
-            synonyms[synonymKey].Any(synonym => string.Equals(synonym, word, System.StringComparison.OrdinalIgnoreCase)));
+            synonyms.TryGetValue(synonymKey, out string[] lSynonyms);
+
+            return lTokenized.Any(word => string.Equals(word, synonymKey, System.StringComparison.OrdinalIgnoreCase) ||
+                                  (lSynonyms != null && 
+                                  lSynonyms.Any(synonym => string.Equals(synonym, word, System.StringComparison.OrdinalIgnoreCase))));
         }
     }
 }

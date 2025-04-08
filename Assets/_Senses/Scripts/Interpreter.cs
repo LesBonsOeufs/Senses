@@ -28,16 +28,19 @@ namespace Root
             else
                 lNode = NodeManager.Instance.Current;
 
-            Awaitable lWaitingText = WaitingText(lLinkedCTS.Token, lWaitingPrefix);
+            if (lKeywordAccepted && !lNode.IsWarpInstant)
+            {
+                Awaitable lWaitingText = WaitingText(lLinkedCTS.Token, lWaitingPrefix);
 
-            try
-            {
-                await Awaitable.WaitForSecondsAsync(3f, lLinkedCTS.Token);
-            }
-            finally
-            {
-                lWaitingTextCTS.Cancel();
-                await lWaitingText; //Ensure cleanup
+                try
+                {
+                    await Awaitable.WaitForSecondsAsync(3f, lLinkedCTS.Token);
+                }
+                finally
+                {
+                    lWaitingTextCTS.Cancel();
+                    await lWaitingText; //Ensure cleanup
+                }
             }
             
             return Format(lKeywordAccepted ? lNode.AccessText : lNode.KeywordFailText, input);

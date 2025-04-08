@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <IsWarpInstant>k__BackingField: 0
   <WarpingText>k__BackingField: Processing
-  <AccessText>k__BackingField: <color:green>Successfully connected to Hub.</color>
+  <AccessText>k__BackingField: <color=green>Successfully connected to Hub.</color>
   <IsPositional>k__BackingField: 1
   <Routes>k__BackingField: []
   <KeywordFailText>k__BackingField: 

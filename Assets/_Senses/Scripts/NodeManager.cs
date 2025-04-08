@@ -19,10 +19,12 @@ namespace Root
         {
             foreach (Route lRoute in Current.Routes)
             {
-                if (synonymDatabase.ContainsSynonymOf(keyword, lRoute.accessKeyword))
+                if (synonymDatabase.IsSynonymOf(keyword, lRoute.accessKeyword))
                 {
-                    Current = lRoute.to;
-                    return Current;
+                    if (lRoute.to.IsPositional)
+                        Current = lRoute.to;
+
+                    return lRoute.to;
                 }
             }
 
