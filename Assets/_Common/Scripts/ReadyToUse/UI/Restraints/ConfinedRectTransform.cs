@@ -10,6 +10,10 @@ public class ConfinedRectTransform : MonoBehaviour
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+
+        //Use first active Canvas as default
+        if (confiner == null)
+            confiner = FindFirstObjectByType<Canvas>().GetComponent<RectTransform>();
     }
 
     private void LateUpdate()

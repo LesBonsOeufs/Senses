@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Root
@@ -19,10 +20,12 @@ namespace Root
         [field: SerializeField, Tooltip("If false, Node is not used for position: it will not change \"current node\" when accessed.")]
         public bool IsPositional { get; private set; } = true;
 
-        [field: SerializeField, ShowIf(nameof(IsPositional))] public Route[] Routes { get; private set; }
+        [field: SerializeField, ShowIf(nameof(IsPositional))] public List<Route> Routes { get; private set; }
 
         [field: SerializeField, ShowIf(nameof(IsPositional)), ResizableTextArea, Tooltip("Text to show if keyword has no related routes from this node")]
         public string KeywordFailText { get; private set; }
+
+        [field: SerializeField] public WindowOpenCloseAnim WindowToOpenPrefab { get; private set; }
     }
 
     [Serializable]

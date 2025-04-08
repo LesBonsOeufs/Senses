@@ -18,15 +18,30 @@ namespace Root
                 destroyCancellationToken);
 
             string lWaitingPrefix = "";
+            string lOutput;
 
-            //New node if accepted. If not, null
+            //New node if accepted. If not, null is received and node stays the same
             NodeInfo lNode = NodeManager.Instance.TryRouteKeyword(input);
             bool lKeywordAccepted = lNode != null;
 
             if (lKeywordAccepted)
+            {
+                lOutput = lNode.AccessText;
                 lWaitingPrefix = Format(lNode.WarpingText, input);
+            }
             else
-                lNode = NodeManager.Instance.Current;
+            {
+                //Check if input is a QuickMail code
+                NodeInfo lQuickMail = MailManager.Instance.QuickMail(input);
+
+                if (lQuickMail != null)
+                    lOutput = $"QuickMail received: {lQuickMail.name}";
+                else
+                {
+                    lNode = NodeManager.Instance.Current;
+                    lOutput = lNode.KeywordFailText;
+                }
+            }
 
             if (lKeywordAccepted && !lNode.IsWarpInstant)
             {
@@ -43,7 +58,7 @@ namespace Root
                 }
             }
             
-            return Format(lKeywordAccepted ? lNode.AccessText : lNode.KeywordFailText, input);
+            return Format(lOutput, input);
         }
 
         private async Awaitable WaitingText(CancellationToken cts, string prefix = "")

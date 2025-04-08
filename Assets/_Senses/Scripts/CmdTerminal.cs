@@ -49,17 +49,20 @@ namespace Root
 
             directoryPrefixTmp.transform.SetAsLastSibling();
             Interpreter.Instance.transform.SetAsLastSibling();
-
             LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
 
-            float lHardHeightLimit = containerPanel.rect.height * 1.5f;
-            float lSoftHeightLimit = containerPanel.rect.height * 0.7f;
+            float lInputHeight = lInputLine.rectTransform.rect.height;
+            float lOutputHeight = lOutputLine.rectTransform.rect.height;
+
+            float lHardHeightLimit = containerPanel.rect.height * 3f;
+            float lSoftHeightLimit = containerPanel.rect.height * 0.87f;
 
             float lLostHeight = 0f;
-            float lRectTransformPredictiveHeight() => rectTransform.rect.height - lLostHeight;
+            float lRectTransformPredictiveHeight() => rectTransform.rect.height + lInputHeight + lOutputHeight - lLostHeight;
             int lChildIndex = 0;
 
             //Test with lostHeight is required as Destroy's execution will not happen during the while loop
+            //All lines that make terminal reach hardlimit are assumed to not be visible (borders between hardlimit & softlimit)
             while (lRectTransformPredictiveHeight() > lHardHeightLimit)
             {
                 GameObject lFirstLine = transform.GetChild(lChildIndex++).gameObject;
@@ -70,15 +73,7 @@ namespace Root
             rectTransform.anchoredPosition -= Vector2.up * lLostHeight;
 
             if (lRectTransformPredictiveHeight() > lSoftHeightLimit)
-            {
-                float lInputHeight = lInputLine.rectTransform.rect.height;
-                float lOutputHeight = lOutputLine.rectTransform.rect.height;
-
-                float lExcessiveHeight = lRectTransformPredictiveHeight() - lOutputHeight <= lSoftHeightLimit ?
-                        lInputHeight : lInputHeight + lOutputHeight;
-
-                rectTransform.anchoredPosition += Vector2.up * lExcessiveHeight;
-            }
+                rectTransform.anchoredPosition += Vector2.up * (lOutputHeight + lInputHeight);
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
         }

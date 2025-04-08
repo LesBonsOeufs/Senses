@@ -19,4 +19,8 @@ MonoBehaviour:
   <Routes>k__BackingField:
   - accessKeyword: connect
     to: {fileID: 11400000, guid: 62c81acfefc6a894fb67e91dd75fb1e4, type: 2}
+  <Routebs>k__BackingField:
+  - accessKeyword: connect
+    to: {fileID: 11400000, guid: 62c81acfefc6a894fb67e91dd75fb1e4, type: 2}
   <KeywordFailText>k__BackingField: No connection. Please enter suitable command.
+  <WindowToOpenPrefab>k__BackingField: {fileID: 0}
