@@ -2,14 +2,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(RectTransform))]
-public class DraggableRectTransform : MonoBehaviour, IPointerDownHandler, IDragHandler, IBeginDragHandler
+public class DraggableRectTransform : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
     private RectTransform rectTransform;
-    private Vector2 lastMousePosition;
+    private Canvas canvas;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+        canvas = GetComponentInParent<Canvas>();
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -17,15 +18,8 @@ public class DraggableRectTransform : MonoBehaviour, IPointerDownHandler, IDragH
         transform.SetAsLastSibling();
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        lastMousePosition = eventData.position;
-    }
-
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 lDeltaDrag = eventData.position - lastMousePosition;
-        rectTransform.anchoredPosition += lDeltaDrag;
-        lastMousePosition = eventData.position;
+        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 }

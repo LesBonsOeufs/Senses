@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 2416199871598626844, guid: e893aefd93740714b999573b02916984,
         type: 3}
       propertyPath: m_Name
-      value: UniWindowController Variant
+      value: UniWindowController
       objectReference: {fileID: 0}
     - target: {fileID: 2416199871598626845, guid: e893aefd93740714b999573b02916984,
         type: 3}
@@ -77,11 +77,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _shouldFitMonitor
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2416199871598626845, guid: e893aefd93740714b999573b02916984,
-        type: 3}
-      propertyPath: autoSwitchCameraBackground
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
