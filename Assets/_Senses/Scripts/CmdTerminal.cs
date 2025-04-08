@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace Root
@@ -54,25 +55,32 @@ namespace Root
             float lHardHeightLimit = containerPanel.rect.height * 1.5f;
             float lSoftHeightLimit = containerPanel.rect.height * 0.7f;
 
-            while (rectTransform.rect.height > lHardHeightLimit)
+            float lLostHeight = 0f;
+            float lRectTransformPredictiveHeight() => rectTransform.rect.height - lLostHeight;
+            int lChildIndex = 0;
+
+            //Test with lostHeight is required as Destroy's execution will not happen during the while loop
+            while (lRectTransformPredictiveHeight() > lHardHeightLimit)
             {
-                GameObject lFirstLine = transform.GetChild(0).gameObject;
-                float lLostHeight = lFirstLine.GetComponent<RectTransform>().rect.height;
+                GameObject lFirstLine = transform.GetChild(lChildIndex++).gameObject;
+                lLostHeight += lFirstLine.GetComponent<RectTransform>().rect.height;
                 Destroy(lFirstLine);
-                rectTransform.anchoredPosition -= Vector2.up * lLostHeight;
-                LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
             }
 
-            if (rectTransform.rect.height > lSoftHeightLimit)
+            rectTransform.anchoredPosition -= Vector2.up * lLostHeight;
+
+            if (lRectTransformPredictiveHeight() > lSoftHeightLimit)
             {
                 float lInputHeight = lInputLine.rectTransform.rect.height;
                 float lOutputHeight = lOutputLine.rectTransform.rect.height;
 
-                float lExcessiveHeight = rectTransform.rect.height - lOutputHeight <= lSoftHeightLimit ?
+                float lExcessiveHeight = lRectTransformPredictiveHeight() - lOutputHeight <= lSoftHeightLimit ?
                         lInputHeight : lInputHeight + lOutputHeight;
 
                 rectTransform.anchoredPosition += Vector2.up * lExcessiveHeight;
             }
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
         }
 
         private void Update()
