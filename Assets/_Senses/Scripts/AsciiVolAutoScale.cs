@@ -16,6 +16,7 @@ namespace Root
 
         private AsciiVol asciiVolume;
 
+        [Button("Refresh")]
         private void Start()
         {
             Volume lVolume = GetComponent<Volume>();
