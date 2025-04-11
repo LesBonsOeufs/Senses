@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 519054111041038300, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 1729
+      value: 1741
       objectReference: {fileID: 0}
     - target: {fileID: 519054111041038300, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
@@ -531,22 +531,17 @@ PrefabInstance:
     - target: {fileID: 1348564664190899596, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 1058
+      value: 1070
       objectReference: {fileID: 0}
     - target: {fileID: 1967352548562818122, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_SelectedEditorRenderState
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 2741292305080205276, guid: 4970bff696d377d4399fbe278470e797,
-        type: 3}
-      propertyPath: m_Convex
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 2192
+      value: 2204
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
@@ -1088,11 +1083,6 @@ PrefabInstance:
       propertyPath: 'm_SelectedVertices.Array.data[3]'
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 3184389779260083928, guid: 4970bff696d377d4399fbe278470e797,
-        type: 3}
-      propertyPath: m_Convex
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3625845662712772252, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1158,20 +1148,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blocker_Large
       objectReference: {fileID: 0}
-    - target: {fileID: 4830968833323308576, guid: 4970bff696d377d4399fbe278470e797,
-        type: 3}
-      propertyPath: m_Convex
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7551486701651499520, guid: 4970bff696d377d4399fbe278470e797,
-        type: 3}
-      propertyPath: m_Convex
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7555941426722861603, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 1058
+      value: 1070
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

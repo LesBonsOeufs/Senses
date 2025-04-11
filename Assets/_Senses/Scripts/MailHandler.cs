@@ -1,12 +1,11 @@
 using AYellowpaper.SerializedCollections;
 using NaughtyAttributes;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Root
 {
-    public class MailManager : Singleton<MailManager>
+    public class MailHandler : MonoBehaviour
     {
         [SerializeField, Expandable] private NodeInfo mailNode;
         [SerializeField] private SerializedDictionary<string, NodeInfo> quickMails = new();
@@ -23,10 +22,8 @@ namespace Root
             return lNode;
         }
 
-        protected override void OnDestroy()
+        private void OnDestroy()
         {
-            base.OnDestroy();
-
             foreach (Route lRuntimeRoute in runtimeAddedRoutes)
                 mailNode.Routes.Remove(lRuntimeRoute);
         }

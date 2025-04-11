@@ -18,32 +18,30 @@ namespace Root
                 destroyCancellationToken);
 
             string lWaitingPrefix = "";
-            string lOutput;
+            string lOutput = "";
 
-            //New node if accepted. If not, null is received and node stays the same
-            NodeInfo lNode = NodeManager.Instance.TryRouteKeyword(input);
-            bool lKeywordAccepted = lNode != null;
-
-            if (lKeywordAccepted)
+            switch (NodeManager.Instance.TryRouteKeyword(input, out NodeInfo lNode))
             {
-                lOutput = lNode.AccessText;
-                lWaitingPrefix = Format(lNode.WarpingText, input);
-            }
-            else
-            {
-                //Check if input is a QuickMail code
-                NodeInfo lQuickMail = MailManager.Instance.QuickMail(input);
-
-                if (lQuickMail != null)
-                    lOutput = $"QuickMail received: {lQuickMail.name}";
-                else
-                {
+                case NodeManager.EResult.POSITIONAL:
+                case NodeManager.EResult.NON_POSITIONAL:
+                    lOutput = lNode.AccessText;
+                    lWaitingPrefix = Format(lNode.WarpingText, input);
+                    break;
+                case NodeManager.EResult.EVENT:
+                    lOutput = "Event sent successfully!";
+                    break;
+                case NodeManager.EResult.MAIL:
+                    lOutput = $"QuickMail received: {lNode.name}";
+                    break;
+                case NodeManager.EResult.FAIL:
                     lNode = NodeManager.Instance.Current;
                     lOutput = lNode.KeywordFailText;
-                }
+                    break;
             }
 
-            if (lKeywordAccepted && !lNode.IsWarpInstant)
+            bool lNodeReceived = lNode != null;
+
+            if (lNodeReceived && !lNode.IsWarpInstant)
             {
                 Awaitable lWaitingText = WaitingText(lLinkedCTS.Token, lWaitingPrefix);
 

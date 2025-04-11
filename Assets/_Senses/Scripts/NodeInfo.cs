@@ -29,7 +29,7 @@ namespace Root
     }
 
     [Serializable]
-    public class Route
+    public struct Route
     {
         public string accessKeyword;
         public NodeInfo to;

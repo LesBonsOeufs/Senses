@@ -87,6 +87,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AUTO_SCROLL: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -109,6 +110,8 @@ Material:
     - _ReceiveShadows: 1
     - _ScrollSpeedX: 0
     - _ScrollSpeedY: -0.3
+    - _ScrollX: 0
+    - _ScrollY: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

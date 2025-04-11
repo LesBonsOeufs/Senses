@@ -6,7 +6,7 @@ namespace Root
     /// Conveyer belt that has a uniform direction and speed and will push objects that collide with it.
     /// </summary>
     [RequireComponent(typeof(MeshRenderer))]
-    public class ConveyerBelt : MonoBehaviour
+    public class ConveyorBelt : MonoBehaviour
     {
         /// <summary>
         /// How does this belt move objects, by pushing objects sitting
@@ -32,22 +32,16 @@ namespace Root
             Backward
         }
 
-        [SerializeField]
-        public float velocity;
+        [SerializeField] private float velocity;
 
-        /// <summary>
-        /// Direction that the conveyer belt pushes objects.
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Local direction does this push objects.")]
+        [SerializeField, Tooltip("Local direction does this push objects.")]
         private RelativeDirection direction = RelativeDirection.Down;
 
-        /// <summary>
-        /// Kind of force used to move objects. <see cerf="BeltForceMode" /> for more details on 
-        /// how the belt force modes work.
-        /// </summary>
-        // [SerializeField]
-        // [Tooltip("Belt force mode used to push physics objects in the scene.")]
+        [SerializeField] public int materialIndex = 1;
+        private Material materialInstance;
+        private int materialScrollPropertyId;
+        private float currentScrollValue = 0f;
+
         private BeltForceMode beltMode = BeltForceMode.Push;
 
         private Rigidbody body;
@@ -57,6 +51,15 @@ namespace Root
         {
             body = GetComponent<Rigidbody>();
             pos = transform.position;
+            materialInstance = GetComponent<MeshRenderer>().materials[materialIndex];
+            materialScrollPropertyId = Shader.PropertyToID("_ScrollY");
+        }
+
+        private void Update()
+        {
+            currentScrollValue += velocity * Time.deltaTime;
+            currentScrollValue %= 1f;
+            materialInstance.SetFloat(materialScrollPropertyId, -currentScrollValue);
         }
 
         /// <summary>
@@ -64,7 +67,7 @@ namespace Root
         /// </summary>
         public void FixedUpdate()
         {
-            if (body != null && beltMode == BeltForceMode.Pull)
+            if (enabled && body != null && beltMode == BeltForceMode.Pull)
             {
                 Vector3 movement = velocity * GetDirection() * Time.fixedDeltaTime;
                 transform.position = pos - movement;
@@ -79,7 +82,7 @@ namespace Root
         /// <param name="other">Collision event between the objects.</param>
         public void OnCollisionStay(Collision other)
         {
-            if (other.rigidbody != null && !other.rigidbody.isKinematic && beltMode == BeltForceMode.Push)
+            if (enabled && other.rigidbody != null && !other.rigidbody.isKinematic && beltMode == BeltForceMode.Push)
             {
                 Vector3 movement = velocity * GetDirection() * Time.deltaTime;
                 other.rigidbody.MovePosition(other.transform.position + movement);

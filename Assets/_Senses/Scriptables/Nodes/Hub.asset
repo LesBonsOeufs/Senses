@@ -26,6 +26,8 @@ MonoBehaviour:
 
 '
   <IsPositional>k__BackingField: 1
-  <Routes>k__BackingField: []
+  <Routes>k__BackingField:
+  - accessKeyword: test
+    to: {fileID: 11400000, guid: 8b3fd4330668ea4418d59060f941bcb3, type: 2}
   <KeywordFailText>k__BackingField: 
   <WindowToOpenPrefab>k__BackingField: {fileID: 0}
