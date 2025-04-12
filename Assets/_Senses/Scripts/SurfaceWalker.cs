@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,8 +7,8 @@ namespace Root
 {
     public class SurfaceWalker : MonoBehaviour
     {
-        //[InfoBox("Fill for dynamic leg anim duration & maxTipWait (each initial duration will be divided with speed)"), SerializeField]
-        //private LegController legController;
+        [InfoBox("Fill for dynamic leg anim duration & maxTipWait (each initial duration will be divided with speed)"), SerializeField]
+        private LegController legController;
 
         [Foldout("Movement"), SerializeField] private float speed = .5f;
         [Foldout("Movement"), SerializeField] private float pitchSpeed = 6f;
@@ -29,8 +30,8 @@ namespace Root
 
         private void Start()
         {
-            //initControllerMaxTipWait = legController.maxTipWait;
-            //initLegAnimDurations = legController.Legs.Select(leg => leg.tipAnimationDuration).ToArray();
+            initControllerMaxTipWait = legController.maxTipWait;
+            initLegAnimDurations = legController.Legs.Select(leg => leg.tipAnimationDuration).ToArray();
 
             if (autoInitElevation && Physics.Raycast(new Ray(transform.position, transform.up * -1), out RaycastHit lHit, 1f))
                 initialElevation = lHit.distance;
@@ -96,13 +97,13 @@ namespace Root
 
         private void UpdateDynamicLegAnimDurations()
         {
-            //if (speed == 0f)
-            //    return;
+            if (speed == 0f)
+                return;
 
-            //for (int i = legController.Legs.Length - 1; i >= 0; i--)
-            //    legController.Legs[i].tipAnimationDuration = initLegAnimDurations[i] / Mathf.Abs(speed);
+            for (int i = legController.Legs.Length - 1; i >= 0; i--)
+                legController.Legs[i].tipAnimationDuration = initLegAnimDurations[i] / Mathf.Abs(speed);
 
-            //legController.maxTipWait = initControllerMaxTipWait / Mathf.Abs(speed);
+            legController.maxTipWait = initControllerMaxTipWait / Mathf.Abs(speed);
         }
     }
 }
