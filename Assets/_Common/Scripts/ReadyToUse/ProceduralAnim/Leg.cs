@@ -16,6 +16,7 @@ public class Leg : MonoBehaviour
     [SerializeField] private AnimationCurve speedCurve;
     [SerializeField] private AnimationCurve heightCurve;
     [SerializeField] private bool useForwardRay = true;
+    [SerializeField] private bool applyRotation = true;
 
     [Foldout("Advanced")] public float tipAnimationDuration = 0.15f;
     [Foldout("Advanced"), SerializeField] private float tipAnimationFrameTime = 1 / 60.0f;
@@ -171,8 +172,12 @@ public class Leg : MonoBehaviour
         // Update leg ik target transform depending on tip information
         Vector3 lWorldIKTargetPosition = TipPos + bodyTransform.up.normalized * ikYOffset;
         ikTarget.transform.localPosition = transform.InverseTransformPoint(lWorldIKTargetPosition);
-        Quaternion lWorldIKTargetRotation = Quaternion.LookRotation(bodyTransform.forward, bodyTransform.up);
-        ikTarget.transform.localRotation = Quaternion.Inverse(transform.rotation) * lWorldIKTargetRotation;
+
+        if (applyRotation)
+        {
+            Quaternion lWorldIKTargetRotation = Quaternion.LookRotation(bodyTransform.forward, bodyTransform.up);
+            ikTarget.transform.localRotation = Quaternion.Inverse(transform.rotation) * lWorldIKTargetRotation;
+        }
     }
 
     private void OnDrawGizmos()
