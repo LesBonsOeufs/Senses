@@ -384,8 +384,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50158cc6715b9f24da32f8af21d4f23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 0.3
+  velocity: 0.6
   direction: 4
+  materialIndex: 1
 --- !u!54 &1578511357307640353
 Rigidbody:
   m_ObjectHideFlags: 0

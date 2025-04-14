@@ -95,7 +95,7 @@ namespace Root
         /// <returns>The direction in world space of teh conveyer belt, will be 1 unit long.</returns>
         public Vector3 GetDirection()
         {
-            switch (this.direction)
+            switch (direction)
             {
                 case RelativeDirection.Up:
                     return transform.up;

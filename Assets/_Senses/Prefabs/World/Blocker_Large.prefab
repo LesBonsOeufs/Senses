@@ -2231,7 +2231,7 @@ PrefabInstance:
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 2258
+      value: 2276
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
@@ -2721,7 +2721,7 @@ PrefabInstance:
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_SelectedEdges.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
@@ -3196,17 +3196,17 @@ PrefabInstance:
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_SelectedVertices.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_SelectedEdges.Array.data[0].a
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_SelectedEdges.Array.data[0].b
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
@@ -3241,12 +3241,12 @@ PrefabInstance:
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: 'm_SelectedVertices.Array.data[0]'
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: 'm_SelectedVertices.Array.data[1]'
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
@@ -3257,6 +3257,11 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_SelectedVertices.Array.data[3]'
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3326066683591559814, guid: 4970bff696d377d4399fbe278470e797,
+        type: 3}
+      propertyPath: m_SelectedEditorRenderState
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3625845662712772252, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
