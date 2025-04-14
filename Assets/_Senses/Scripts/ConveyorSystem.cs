@@ -13,6 +13,8 @@ namespace Root
         [SerializeField] private ConveyorBelt belt2;
         [SerializeField] private ConveyorBelt belt3;
 
+        private bool allowUsage = false;
+
         private void Start()
         {
             blocker1.Close();
@@ -24,6 +26,9 @@ namespace Root
 
         public void OpenWay(int way)
         {
+            if (!allowUsage)
+                return;
+
             switch (way)
             {
                 case 0:
@@ -45,6 +50,8 @@ namespace Root
                     belt3.enabled = true;
                     break;
             }
+
+            allowUsage = false;
         }
 
         [Button]
@@ -53,6 +60,7 @@ namespace Root
             beltMain.enabled = false;
             blocker1.Close();
             blocker2.Close();
+            allowUsage = true;
         }
     }
 }
