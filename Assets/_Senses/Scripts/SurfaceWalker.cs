@@ -30,7 +30,7 @@ namespace Root
 
         private void Start()
         {
-            initControllerMaxTipWait = legController.maxTipWait;
+            initControllerMaxTipWait = legController.maxTipDistance;
             initLegAnimDurations = legController.Legs.Select(leg => leg.tipAnimationDuration).ToArray();
 
             if (autoInitElevation && Physics.Raycast(new Ray(transform.position, transform.up * -1), out RaycastHit lHit, 1f))
@@ -103,7 +103,7 @@ namespace Root
             for (int i = legController.Legs.Length - 1; i >= 0; i--)
                 legController.Legs[i].tipAnimationDuration = initLegAnimDurations[i] / Mathf.Abs(speed);
 
-            legController.maxTipWait = initControllerMaxTipWait / Mathf.Abs(speed);
+            legController.maxTipDistance = initControllerMaxTipWait / Mathf.Abs(speed);
         }
     }
 }

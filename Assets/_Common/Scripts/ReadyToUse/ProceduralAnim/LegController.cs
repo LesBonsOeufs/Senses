@@ -2,22 +2,33 @@ using UnityEngine;
 
 public class LegController : MonoBehaviour
 {
-    public float maxTipWait = 0.7f;
+    public float maxTipDistance = 0.7f;
+    [field: SerializeField] public Leg[] Legs { get; private set; }
+    [SerializeField] private bool twoByTwo = true;
 
+    //Two by two
     private bool readySwitchOrder = false;
     private bool stepOrder = true;
 
-    public Leg[] Legs => _legs;
-    [SerializeField] private Leg[] _legs;
+    //One by one
+    private int currentLegIndex = 0;
 
     private void Update()
     {
-        if (_legs.Length < 2) return;
+        if (Legs.Length < 2) return;
 
-        // If tip is not in current order but it's too far from target position, Switch the order
-        for (int i = 0; i < _legs.Length; i++)
+        if (twoByTwo)
+            TwoByTwo();
+        else
+            OneByOne();
+    }
+
+    private void TwoByTwo()
+    {
+        // Make sure first leg with maxTipDistance is moved in priority.
+        for (int i = 0; i < Legs.Length; i++)
         {
-            if (_legs[i].TipDistance > maxTipWait)
+            if (Legs[i].TipDistance > maxTipDistance)
             {
                 stepOrder = i % 2 == 0;
                 break;
@@ -25,24 +36,43 @@ public class LegController : MonoBehaviour
         }
 
         // Ordering steps
-        foreach (Leg leg in _legs)
+        foreach (Leg leg in Legs)
         {
             leg.Movable = stepOrder;
             stepOrder = !stepOrder;
         }
 
+        //Below is quick & dirty
         int lIndex = stepOrder ? 0 : 1;
 
-        // If the opposite foot step completes, switch the order to make a new step
-        if (readySwitchOrder && !_legs[lIndex].Animating)
+        if (readySwitchOrder && !Legs[lIndex].Animating)
         {
             stepOrder = !stepOrder;
             readySwitchOrder = false;
         }
 
-        if (!readySwitchOrder && _legs[lIndex].Animating)
-        {
+        if (!readySwitchOrder && Legs[lIndex].Animating)
             readySwitchOrder = true;
+    }
+
+    private void OneByOne()
+    {
+        for (int i = 0; i < Legs.Length; i++)
+        {
+            if (i == currentLegIndex || Legs[i].TipDistance > maxTipDistance)
+                Legs[i].Movable = true;
+            else
+                Legs[i].Movable = false;
         }
+
+        if (readySwitchOrder && !Legs[currentLegIndex].Animating)
+        {
+            currentLegIndex++;
+            currentLegIndex %= Legs.Length;
+            readySwitchOrder = false;
+        }
+
+        if (!readySwitchOrder && Legs[currentLegIndex].Animating)
+            readySwitchOrder = true;
     }
 }
