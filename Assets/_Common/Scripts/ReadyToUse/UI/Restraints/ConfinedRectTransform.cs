@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 [RequireComponent(typeof(RectTransform))]
 public class ConfinedRectTransform : MonoBehaviour
@@ -11,9 +12,10 @@ public class ConfinedRectTransform : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
 
-        //Use first active Canvas as default
+        //Use first active Overlay Canvas as default
         if (confiner == null)
-            confiner = FindFirstObjectByType<Canvas>().GetComponent<RectTransform>();
+            confiner = FindObjectsByType<Canvas>(FindObjectsSortMode.None)
+                .Where(canvas => canvas.renderMode == RenderMode.ScreenSpaceOverlay).First().GetComponent<RectTransform>();
     }
 
     private void LateUpdate()

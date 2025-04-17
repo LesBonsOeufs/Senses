@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -5,34 +6,45 @@ public class CollisionEvents : MonoBehaviour
 {
     [SerializeField] private bool destroyOtherOnEnter = false;
 
-    [SerializeField] private UnityEvent triggerEnter;
-    [SerializeField] private UnityEvent triggerStay;
-    [SerializeField] private UnityEvent triggerExit;
-    [SerializeField] private UnityEvent collisionEnter;
-    [SerializeField] private UnityEvent collisionStay;
-    [SerializeField] private UnityEvent collisionExit;
+    [SerializeField] private UnityEvent enter;
+    [SerializeField] private UnityEvent stay;
+    [SerializeField] private UnityEvent exit;
+
+    [Foldout("Advanced"), SerializeField, Tag] private string specialTag = "Untagged";
+    [Foldout("Advanced"), SerializeField] private UnityEvent specialEnter;
+    [Foldout("Advanced"), SerializeField] private UnityEvent otherEnter;
 
     private void OnTriggerEnter(Collider other)
     {
-        triggerEnter?.Invoke();
+        if (other.CompareTag(specialTag))
+            specialEnter?.Invoke();
+        else
+            otherEnter?.Invoke();
+
+        enter?.Invoke();
 
         if (destroyOtherOnEnter)
             Destroy(other.gameObject);
     }
 
-    private void OnTriggerStay(Collider other) => triggerStay?.Invoke();
+    private void OnTriggerStay(Collider other) => stay?.Invoke();
 
-    private void OnTriggerExit(Collider other) => triggerExit?.Invoke();
+    private void OnTriggerExit(Collider other) => exit?.Invoke();
 
     private void OnCollisionEnter(Collision collision)
     {
-        collisionEnter?.Invoke();
+        if (collision.gameObject.CompareTag(specialTag))
+            specialEnter?.Invoke();
+        else
+            otherEnter?.Invoke();
+
+        enter?.Invoke();
 
         if (destroyOtherOnEnter)
             Destroy(collision.gameObject);
     }
 
-    private void OnCollisionStay(Collision collision) => collisionStay?.Invoke();
+    private void OnCollisionStay(Collision collision) => stay?.Invoke();
 
-    private void OnCollisionExit(Collision collision) => collisionExit?.Invoke();
+    private void OnCollisionExit(Collision collision) => exit?.Invoke();
 }

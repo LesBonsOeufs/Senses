@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 519054111041038300, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 1795
+      value: 1799
       objectReference: {fileID: 0}
     - target: {fileID: 519054111041038300, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
@@ -1016,7 +1016,7 @@ PrefabInstance:
     - target: {fileID: 1348564664190899596, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 1124
+      value: 1128
       objectReference: {fileID: 0}
     - target: {fileID: 1348564664190899596, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
@@ -2225,13 +2225,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1967352548562818122, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 46813b0c84039e942b5ff07f03e6fb9d, type: 2}
+    - target: {fileID: 1967352548562818122, guid: 4970bff696d377d4399fbe278470e797,
+        type: 3}
       propertyPath: m_SelectedEditorRenderState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 2276
+      value: 2280
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
@@ -2721,7 +2726,7 @@ PrefabInstance:
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_SelectedEdges.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
@@ -3196,7 +3201,7 @@ PrefabInstance:
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_SelectedVertices.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3052223215161398054, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
@@ -3260,6 +3265,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3326066683591559814, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 46813b0c84039e942b5ff07f03e6fb9d, type: 2}
+    - target: {fileID: 3326066683591559814, guid: 4970bff696d377d4399fbe278470e797,
+        type: 3}
       propertyPath: m_SelectedEditorRenderState
       value: 2
       objectReference: {fileID: 0}
@@ -3313,6 +3323,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3842410582052805954, guid: 4970bff696d377d4399fbe278470e797,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 46813b0c84039e942b5ff07f03e6fb9d, type: 2}
     - target: {fileID: 4675493363520009335, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3328,10 +3343,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blocker_Large
       objectReference: {fileID: 0}
+    - target: {fileID: 6915439594218457629, guid: 4970bff696d377d4399fbe278470e797,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 46813b0c84039e942b5ff07f03e6fb9d, type: 2}
     - target: {fileID: 7555941426722861603, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}
       propertyPath: m_VersionIndex
-      value: 1132
+      value: 1136
       objectReference: {fileID: 0}
     - target: {fileID: 7555941426722861603, guid: 4970bff696d377d4399fbe278470e797,
         type: 3}

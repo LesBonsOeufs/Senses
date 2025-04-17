@@ -20,6 +20,7 @@ namespace Root
 
             left.DOBlendableRotateBy(Vector3.up * -90f, tweenDuration);
             right.DOBlendableRotateBy(Vector3.up * 90f, tweenDuration);
+            isOpen = true;
         }
 
         [Button]
@@ -30,6 +31,7 @@ namespace Root
 
             left.DOBlendableRotateBy(Vector3.up * 90f, tweenDuration);
             right.DOBlendableRotateBy(Vector3.up * -90f, tweenDuration);
+            isOpen = false;
         }
     }
 }

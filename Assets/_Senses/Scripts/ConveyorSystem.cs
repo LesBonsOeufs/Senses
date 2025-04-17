@@ -49,18 +49,28 @@ namespace Root
                     beltMain.enabled = true;
                     belt3.enabled = true;
                     break;
+                default:
+                    return;
             }
 
             allowUsage = false;
         }
 
         [Button]
-        public void ResetWay()
+        public void ReallowUsage()
+        {
+            allowUsage = true;
+        }
+
+        [Button]
+        public void CloseWay()
         {
             beltMain.enabled = false;
+            belt1.enabled = false;
+            belt2.enabled = false;
+            belt3.enabled = false;
             blocker1.Close();
             blocker2.Close();
-            allowUsage = true;
         }
     }
 }
