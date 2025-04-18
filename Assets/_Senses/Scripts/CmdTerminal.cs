@@ -61,7 +61,10 @@ namespace Root
             float lRectTransformPredictiveHeight() => rectTransform.rect.height + lInputHeight + lOutputHeight - lLostHeight;
 
             if (lRectTransformPredictiveHeight() > lSoftHeightLimit)
-                rectTransform.anchoredPosition += Vector2.up * (lOutputHeight + lInputHeight);
+            {
+                rectTransform.anchoredPosition += 
+                    Vector2.up * (lOutputHeight + lInputHeight);
+            }
 
             int lChildIndex = 0;
 
