@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 029dcfc20036f9d47b4ba2666c503ab6, type: 3}
-  m_Name: Mail_Control_0
+  m_Name: Mail_View_0
   m_EditorClassIdentifier: 
   <IsWarpInstant>k__BackingField: 1
   <WarpingText>k__BackingField: Opening view
-  <AccessText>k__BackingField: <color=green>Opened control</color>
+  <AccessText>k__BackingField: '[View 0]
+
+    <color=green>Opened view</color>'
   <IsPositional>k__BackingField: 0
   <Routes>k__BackingField: []
   <KeywordFailText>k__BackingField: 

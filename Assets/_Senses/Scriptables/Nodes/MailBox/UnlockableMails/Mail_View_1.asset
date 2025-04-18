@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 029dcfc20036f9d47b4ba2666c503ab6, type: 3}
-  m_Name: Hub
+  m_Name: Mail_View_1
   m_EditorClassIdentifier: 
-  <IsWarpInstant>k__BackingField: 0
-  <WarpingText>k__BackingField: Processing
-  <AccessText>k__BackingField: 'Welcome to Hub. Please '
-  <IsPositional>k__BackingField: 1
-  <Routes>k__BackingField:
-  - accessKeyword: test
-    isBack: 0
-    to: {fileID: 11400000, guid: 8b3fd4330668ea4418d59060f941bcb3, type: 2}
+  <IsWarpInstant>k__BackingField: 1
+  <WarpingText>k__BackingField: Opening view
+  <AccessText>k__BackingField: '[View 1]
+
+    <color=green>Opened view</color>'
+  <IsPositional>k__BackingField: 0
+  <Routes>k__BackingField: []
   <KeywordFailText>k__BackingField: 
-  <WindowToOpenPrefab>k__BackingField: {fileID: 0}
+  <WindowToOpenPrefab>k__BackingField: {fileID: 5288313551860183241, guid: 27dd8b641fe384549ab4a04bb31134b4,
+    type: 3}

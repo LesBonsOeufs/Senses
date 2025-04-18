@@ -20,15 +20,6 @@ MonoBehaviour:
     your username.'
   <IsPositional>k__BackingField: 1
   <Routes>k__BackingField:
-  - accessKeyword: mail
-    to: {fileID: 11400000, guid: bea649222b5347f49874adef0483a2d2, type: 2}
-  - accessKeyword: help
-    to: {fileID: 11400000, guid: 36d0def19ed88ae418a6f6c3bcba6acf, type: 2}
-  - accessKeyword: BCD7_9826
-    to: {fileID: 11400000, guid: 407b7aeb41f7c4a4b84f72fe18898121, type: 2}
-  <Routebs>k__BackingField:
-  - accessKeyword: mail
-    to: {fileID: 11400000, guid: bea649222b5347f49874adef0483a2d2, type: 2}
   - accessKeyword: help
     to: {fileID: 11400000, guid: 36d0def19ed88ae418a6f6c3bcba6acf, type: 2}
   - accessKeyword: BCD7_9826

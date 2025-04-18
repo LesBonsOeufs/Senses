@@ -26,12 +26,15 @@ namespace Root
         public string KeywordFailText { get; private set; }
 
         [field: SerializeField] public WindowOpenCloseAnim WindowToOpenPrefab { get; private set; }
+
+        public void SetAccessText(string newText) => AccessText = newText;
     }
 
     [Serializable]
     public struct Route
     {
         public string accessKeyword;
-        public NodeInfo to;
+        public bool isBack;
+        [InfoBox("The entered node won't be used if isBack is true", EInfoBoxType.Warning)] public NodeInfo to;
     }
 }

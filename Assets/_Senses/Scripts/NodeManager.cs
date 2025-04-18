@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Root
@@ -11,34 +12,56 @@ namespace Root
         [SerializeField] private NodeEventRoutes eventRoutes;
         [SerializeField] private MailHandler mailHandler;
 
-        [ShowNativeProperty] public NodeInfo Current { get; private set; }
+        [ShowNativeProperty] public NodeInfo Current 
+        {
+            get => _current;
+            private set
+            {
+                if (_current == value)
+                    return;
 
+                previousNode = _current;
+                _current = value;
+            }
+        }
+        private NodeInfo _current;
+
+        private NodeInfo previousNode;
         private Canvas gameCanvas;
 
         protected override void Awake()
         {
             base.Awake();
             Current = startNode;
-            gameCanvas = FindFirstObjectByType<Canvas>(FindObjectsInactive.Include);
+
+            //Use first active Overlay Canvas
+            gameCanvas = FindObjectsByType<Canvas>(FindObjectsSortMode.None)
+                .Where(canvas => canvas.renderMode == RenderMode.ScreenSpaceOverlay).First();
         }
 
         public EResult TryRouteKeyword(string keyword, out NodeInfo node)
         {
-            foreach (Route lRoute in Current.Routes)
+            //Routes array made of current node's routes + mail route (mail system accessible everywhere)
+            List<Route> lRoutes = new(Current.Routes)
+            {
+                new Route { accessKeyword = mailHandler.AccessKey, to = mailHandler.MailNode }
+            };
+
+            foreach (Route lRoute in lRoutes)
             {
                 if (synonymDatabase.IsSynonymOf(keyword, lRoute.accessKeyword))
                 {
-                    node = lRoute.to;
+                    node = lRoute.isBack ? previousNode : lRoute.to;
 
-                    if (lRoute.to.WindowToOpenPrefab != null)
+                    if (node.WindowToOpenPrefab != null)
                     {
-                        Instantiate(lRoute.to.WindowToOpenPrefab, gameCanvas.transform.position,
+                        Instantiate(node.WindowToOpenPrefab, gameCanvas.transform.position,
                                 Quaternion.identity, gameCanvas.transform);
                     }
 
-                    if (lRoute.to.IsPositional)
+                    if (node.IsPositional)
                     {
-                        Current = lRoute.to;
+                        Current = node;
                         return EResult.POSITIONAL;
                     }
 

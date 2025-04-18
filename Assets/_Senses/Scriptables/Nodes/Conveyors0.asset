@@ -14,8 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <IsWarpInstant>k__BackingField: 1
   <WarpingText>k__BackingField: 
-  <AccessText>k__BackingField: Try using Unity event 1 2 or 3
+  <AccessText>k__BackingField: '<color=green>Successfully connected to Hub</color>
+
+    You
+    can start your work!
+
+    Please use the ViewSense we sent you by mail,
+
+    and
+    this  one: 93852.
+
+    Your mission is to select the entry that colors'' corresponds
+    the pills.
+
+
+    Type 1, 2, or 3 to open way to an entry.'
   <IsPositional>k__BackingField: 1
   <Routes>k__BackingField: []
-  <KeywordFailText>k__BackingField: Not linked
+  <KeywordFailText>k__BackingField: Not allowed.
   <WindowToOpenPrefab>k__BackingField: {fileID: 0}

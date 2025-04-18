@@ -18,7 +18,9 @@ MonoBehaviour:
     directly receive information to your mailbox.\nThere are two main ways a mail
     can reach you.\n1: From one of our employee, via your identity-code.\n2: From
     our quick-mail system. \nThis allow you to get information by simply entering
-    the matching code in the command box!"
+    the matching code in the command box!\nHaving trouble remembering codes? Please
+    use your device's notepad as a memo!"
   <IsPositional>k__BackingField: 0
   <Routes>k__BackingField: []
   <KeywordFailText>k__BackingField: 
+  <WindowToOpenPrefab>k__BackingField: {fileID: 0}

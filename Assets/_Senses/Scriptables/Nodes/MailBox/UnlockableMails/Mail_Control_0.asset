@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 029dcfc20036f9d47b4ba2666c503ab6, type: 3}
-  m_Name: Mail_View_0
+  m_Name: Mail_Control_0
   m_EditorClassIdentifier: 
   <IsWarpInstant>k__BackingField: 1
   <WarpingText>k__BackingField: Opening view
-  <AccessText>k__BackingField: <color=green>Opened view</color>
+  <AccessText>k__BackingField: '[Control 0]
+
+    <color=green>Opened control</color>'
   <IsPositional>k__BackingField: 0
   <Routes>k__BackingField: []
   <KeywordFailText>k__BackingField: 
-  <WindowToOpenPrefab>k__BackingField: {fileID: 6373895058676440625, guid: 682ee24ab0612584fafecd4073efc01a,
+  <WindowToOpenPrefab>k__BackingField: {fileID: 6451486243642812065, guid: 647ed5b2daf591743b9db9b38afe4dec,
     type: 3}

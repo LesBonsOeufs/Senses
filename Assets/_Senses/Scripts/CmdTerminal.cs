@@ -59,6 +59,10 @@ namespace Root
 
             float lLostHeight = 0f;
             float lRectTransformPredictiveHeight() => rectTransform.rect.height + lInputHeight + lOutputHeight - lLostHeight;
+
+            if (lRectTransformPredictiveHeight() > lSoftHeightLimit)
+                rectTransform.anchoredPosition += Vector2.up * (lOutputHeight + lInputHeight);
+
             int lChildIndex = 0;
 
             //Test with lostHeight is required as Destroy's execution will not happen during the while loop
@@ -71,9 +75,6 @@ namespace Root
             }
 
             rectTransform.anchoredPosition -= Vector2.up * lLostHeight;
-
-            if (lRectTransformPredictiveHeight() > lSoftHeightLimit)
-                rectTransform.anchoredPosition += Vector2.up * (lOutputHeight + lInputHeight);
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
         }

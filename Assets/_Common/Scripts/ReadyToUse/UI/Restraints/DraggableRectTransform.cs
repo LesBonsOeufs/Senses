@@ -1,21 +1,25 @@
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(RectTransform))]
 public class DraggableRectTransform : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
-    private RectTransform rectTransform;
+    [SerializeField] private bool appliesOnSelf = true;
+    [SerializeField, HideIf(nameof(appliesOnSelf))] private RectTransform rectTransform;
     private Canvas canvas;
 
     private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
-        canvas = GetComponentInParent<Canvas>();
+        if (appliesOnSelf || rectTransform == null)
+            rectTransform = GetComponent<RectTransform>();
+
+        canvas = rectTransform.GetComponentInParent<Canvas>();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        transform.SetAsLastSibling();
+        rectTransform.SetAsLastSibling();
     }
 
     public void OnDrag(PointerEventData eventData)

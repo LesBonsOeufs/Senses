@@ -12,43 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 029dcfc20036f9d47b4ba2666c503ab6, type: 3}
   m_Name: MailBox
   m_EditorClassIdentifier: 
-  <IsWarpInstant>k__BackingField: 0
+  <IsWarpInstant>k__BackingField: 1
   <WarpingText>k__BackingField: Connecting to mailbox
-  <AccessText>k__BackingField: 'You have 4 messages.
-
-    1[SenseSystem]
-
-    2[]
-
-    3[Welcome
-    to PKF services!]
-
-    4[About your mail]
-
-    Write the number of the mail you
-    would like to read, or "back" for leaving mail app.'
+  <AccessText>k__BackingField: Type the number of the mail you would like to read,
+    or "back" for leaving mail app.
   <IsPositional>k__BackingField: 1
   <Routes>k__BackingField:
-  - accessKeyword: back
-    to: {fileID: 11400000, guid: 62c81acfefc6a894fb67e91dd75fb1e4, type: 2}
   - accessKeyword: 1
+    isBack: 0
     to: {fileID: 11400000, guid: e0e47c279192cbd4e9d9a8f9b8e437cc, type: 2}
   - accessKeyword: 2
+    isBack: 0
     to: {fileID: 11400000, guid: e64b47baac60de144b0f927450702acb, type: 2}
   - accessKeyword: 3
+    isBack: 0
     to: {fileID: 11400000, guid: 1cdf623b05d3e184f9b4036ac9012134, type: 2}
   - accessKeyword: 4
+    isBack: 0
     to: {fileID: 11400000, guid: 318321d578b52e340b6a2b2458ca4ea4, type: 2}
-  <Routebs>k__BackingField:
   - accessKeyword: back
-    to: {fileID: 11400000, guid: 62c81acfefc6a894fb67e91dd75fb1e4, type: 2}
-  - accessKeyword: 1
-    to: {fileID: 11400000, guid: e0e47c279192cbd4e9d9a8f9b8e437cc, type: 2}
-  - accessKeyword: 2
-    to: {fileID: 11400000, guid: e64b47baac60de144b0f927450702acb, type: 2}
-  - accessKeyword: 3
-    to: {fileID: 11400000, guid: 1cdf623b05d3e184f9b4036ac9012134, type: 2}
-  - accessKeyword: 4
-    to: {fileID: 11400000, guid: 318321d578b52e340b6a2b2458ca4ea4, type: 2}
+    isBack: 1
+    to: {fileID: 0}
   <KeywordFailText>k__BackingField: 
   <WindowToOpenPrefab>k__BackingField: {fileID: 0}
