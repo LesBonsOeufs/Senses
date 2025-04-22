@@ -1,8 +1,6 @@
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 namespace Root
@@ -12,7 +10,6 @@ namespace Root
     {
         [SerializeField, ReadOnly] private RectTransform containerPanel;
         [SerializeField] private TextMeshProUGUI directoryPrefixTmp;
-        [SerializeField] private TMP_InputField inputField;
         [SerializeField] private TextMeshProUGUI writtenLinePrefab;
 
         private RectTransform rectTransform;
@@ -21,26 +18,9 @@ namespace Root
         {
             rectTransform = GetComponent<RectTransform>();
             directoryPrefixTmp.text = "C:\\Users\\PC>";
-            inputField.onSubmit.AddListener(InputField_OnSubmit);
         }
 
-        public async void InputField_OnSubmit(string text)
-        {
-            if (inputField.text != "")
-            {
-                inputField.enabled = false;
-                string lResult = await Interpreter.Instance.Execute(text);
-                inputField.enabled = true;
-                inputField.text = "";
-
-                InsertInteraction(text, lResult);
-            }
-
-            inputField.ActivateInputField();
-            inputField.Select();
-        }
-
-        private void InsertInteraction(string input, string output)
+        public void InsertInteraction(string input, string output)
         {
             TextMeshProUGUI lInputLine = Instantiate(writtenLinePrefab, transform);
             lInputLine.text = $"{directoryPrefixTmp.text}{input}";
@@ -84,14 +64,11 @@ namespace Root
             LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
         }
 
-        private void Update()
-        {
-            if (EventSystem.current.currentSelectedGameObject == null)
-                EventSystem.current.SetSelectedGameObject(inputField.gameObject);
-        }
-
         private void OnValidate()
         {
+            if (transform.parent == null)
+                return;
+
             containerPanel = transform.parent.GetComponent<RectTransform>();
         }
     }

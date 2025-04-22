@@ -53,6 +53,43 @@ MonoBehaviour:
   texture:
     m_OverrideState: 1
     m_Value: {fileID: 0}
+--- !u!114 &-6364578260901453442
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a23474bda613d49a02ce73101f45d1, type: 3}
+  m_Name: AsciiVol
+  m_EditorClassIdentifier: 
+  active: 1
+  m_Scale:
+    m_OverrideState: 1
+    m_Value: 1
+  m_Ascii:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 0}
+  m_Image:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  m_Gradient:
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+  m_Depth:
+    m_OverrideState: 1
+    m_Value: 1
+  m_Fps:
+    m_OverrideState: 1
+    m_Value: 0
+  m_Palette:
+    m_OverrideState: 1
+    m_Value: {fileID: 0}
+  m_Impact:
+    m_OverrideState: 1
+    m_Value: 0
 --- !u!114 &-6000496918125576285
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -275,6 +312,7 @@ MonoBehaviour:
   - {fileID: 4245244678769454700}
   - {fileID: -4090890209339514265}
   - {fileID: 2845536756104914525}
+  - {fileID: -6364578260901453442}
 --- !u!114 &2845536756104914525
 MonoBehaviour:
   m_ObjectHideFlags: 3
