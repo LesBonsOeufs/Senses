@@ -62,8 +62,10 @@ namespace Root
 
             if (lRectTransformPredictiveHeight() > lSoftHeightLimit)
             {
+                float lHeightToAddForSoftLimit = Mathf.Max(lSoftHeightLimit - rectTransform.rect.height, 0f);
+
                 rectTransform.anchoredPosition += 
-                    Vector2.up * (lOutputHeight + lInputHeight);
+                    Vector2.up * (lOutputHeight + lInputHeight - lHeightToAddForSoftLimit);
             }
 
             int lChildIndex = 0;
