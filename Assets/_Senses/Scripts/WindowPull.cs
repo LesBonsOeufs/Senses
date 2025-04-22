@@ -1,5 +1,6 @@
 using DG.Tweening;
 using QuickOutline;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,10 +13,21 @@ namespace Root
         [SerializeField] private float interactWidth = 10f;
         [SerializeField] private float tweenDuration = 0.2f;
 
+        //test
+        [SerializeField] private RectTransform linePrefab;
+        private RectTransform line;
+        private Vector2 startDragPos;
+        private Canvas canvas;
+        //
+
         private Outline outline;
 
         void Start()
         {
+            //Quick & dirty for overlay canvas parent
+            canvas = FindObjectsByType<Canvas>(FindObjectsSortMode.None)
+                .Where(canvas => canvas.renderMode == RenderMode.ScreenSpaceOverlay).First();
+
             Outline lOutline = GetComponent<Outline>();
             outline = lOutline == null ? gameObject.AddComponent<Outline>() : lOutline;
             outline.enabled = false;
@@ -62,16 +74,27 @@ namespace Root
         public void OnBeginDrag(PointerEventData eventData)
         {
             Debug.Log("beginDrag");
+            line = Instantiate(linePrefab, canvas.transform);
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), eventData.position,
+            eventData.pressEventCamera, out Vector2 lCanvasPos);
+            startDragPos = lCanvasPos;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             Debug.Log("drag");
+            
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), eventData.position,
+            eventData.pressEventCamera, out Vector2 lCanvasPos);
+
+            line.Line(startDragPos, lCanvasPos, 24f);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
             Debug.Log("endDrag");
+            Destroy(line.gameObject);
         }
     }
 }

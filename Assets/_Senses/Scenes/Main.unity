@@ -10803,6 +10803,8 @@ MonoBehaviour:
   hoverWidth: 5
   interactWidth: 10
   tweenDuration: 0.2
+  linePrefab: {fileID: 2232100599181865197, guid: 9a3138d46225c4044b28842d61be71e8,
+    type: 3}
 --- !u!114 &1479853215
 MonoBehaviour:
   m_ObjectHideFlags: 0
