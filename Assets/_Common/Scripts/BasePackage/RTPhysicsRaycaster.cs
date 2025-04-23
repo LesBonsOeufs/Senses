@@ -102,13 +102,9 @@ public class RTPhysicsRaycaster : BaseRaycaster
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(lRectTransform, eventData.position, 
             eventData.pressEventCamera, out Vector2 lLocalPoint))
             return;
-
+        
         // Normalize local point to [0,1] UV
-        Rect lRect = lRectTransform.rect;
-        Vector2 lUv = new Vector2(
-            (lLocalPoint.x - lRect.x) / lRect.width,
-            (lLocalPoint.y - lRect.y) / lRect.height
-            );
+        Vector2 lUv = rawImage.rectTransform.LocalToViewportPoint(lLocalPoint);
 
         if (lUv.x < 0 || lUv.x > 1 || lUv.y < 0 || lUv.y > 1)
         {

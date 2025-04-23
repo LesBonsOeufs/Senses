@@ -1,8 +1,10 @@
 using DG.Tweening;
-using QuickOutline;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+using Outline = QuickOutline.Outline;
 
 namespace Root
 {
@@ -13,8 +15,13 @@ namespace Root
         [SerializeField] private float interactWidth = 10f;
         [SerializeField] private float tweenDuration = 0.2f;
 
+
         //test
+        [SerializeField] private RawImage refInUI;
+        [SerializeField] private RenderTexture rtTest;
+        [SerializeField] private Transform windowPrefab;
         [SerializeField] private RectTransform linePrefab;
+        private Transform window;
         private RectTransform line;
         private Vector2 startDragPos;
         private Canvas canvas;
@@ -35,26 +42,22 @@ namespace Root
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Debug.Log("enter");
             outline.enabled = true;
             TweenOutline(hoverWidth);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            Debug.Log("exit");
             TweenOutline(0f, true);
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            Debug.Log("down");
             TweenOutline(interactWidth);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            Debug.Log("up");
             TweenOutline(hoverWidth);
         }
 
@@ -73,27 +76,43 @@ namespace Root
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            Debug.Log("beginDrag");
+            if (window != null)
+            {
+                eventData.pointerDrag = null;
+                return;
+            }
+
             line = Instantiate(linePrefab, canvas.transform);
 
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), eventData.position,
-            eventData.pressEventCamera, out Vector2 lCanvasPos);
-            startDragPos = lCanvasPos;
+            Camera lCamera = FindObjectsByType<Camera>(FindObjectsSortMode.None)
+                .Where(camera => camera.name == "CameraViewDoor").First();
+
+            //test
+            startDragPos = refInUI.rectTransform.ViewportToLocalPoint(
+                lCamera.WorldToViewportPoint(transform.position));
+
+            startDragPos = refInUI.rectTransform.TransformPoint(startDragPos);
+            startDragPos = canvas.GetComponent<RectTransform>().InverseTransformPoint(startDragPos);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            Debug.Log("drag");
-            
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), eventData.position,
             eventData.pressEventCamera, out Vector2 lCanvasPos);
 
             line.Line(startDragPos, lCanvasPos, 24f);
+
+            if (window == null && Vector2.Distance(startDragPos, lCanvasPos) > 100f)
+            {
+                window = Instantiate(windowPrefab, canvas.transform);
+                window.GetComponentInChildren<RawImage>().texture = rtTest;
+            }
+            else if (window != null)
+                window.localPosition = lCanvasPos;
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Debug.Log("endDrag");
             Destroy(line.gameObject);
         }
     }
