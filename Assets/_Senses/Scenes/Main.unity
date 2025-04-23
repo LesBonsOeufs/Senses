@@ -10796,14 +10796,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5e9e8ed12d5524c88c71fbf8cdee4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverWidth: 5
-  interactWidth: 10
+  hoverWidth: 10
+  interactWidth: 30
   tweenDuration: 0.2
-  refInUI: {fileID: 1509401483}
-  rtTest: {fileID: 8400000, guid: 6cdf5b0c60440464ebf65437952ecff1, type: 2}
-  windowPrefab: {fileID: 4780258140689976025, guid: e200dd36991a2434fb08ce68cc8755bf,
+  renderingCamera: {fileID: 144003424}
+  sourceWindow: {fileID: 1248199182}
+  pullableRT: {fileID: 8400000, guid: 6cdf5b0c60440464ebf65437952ecff1, type: 2}
+  windowPrefab: {fileID: 5620229701061239516, guid: e200dd36991a2434fb08ce68cc8755bf,
     type: 3}
-  linePrefab: {fileID: 2232100599181865197, guid: 9a3138d46225c4044b28842d61be71e8,
+  linePrefab: {fileID: 3521906135221559441, guid: 9a3138d46225c4044b28842d61be71e8,
     type: 3}
 --- !u!114 &1479853215
 MonoBehaviour:
@@ -10921,18 +10922,6 @@ MonoBehaviour:
     m_Bits: 4294967295
   sourceCamera: {fileID: 144003424}
   graphicRaycaster: {fileID: 0}
---- !u!114 &1509401483 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8260969631780566927, guid: 9bd03c8989d316e41bda6871593f68a6,
-    type: 3}
-  m_PrefabInstance: {fileID: 7392157416083252146}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509401478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1534459946
 Mesh:
   m_ObjectHideFlags: 0

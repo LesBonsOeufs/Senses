@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Linq;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,63 +16,79 @@ namespace Root
         [SerializeField] private float interactWidth = 10f;
         [SerializeField] private float tweenDuration = 0.2f;
 
-
-        //test
-        [SerializeField] private RawImage refInUI;
-        [SerializeField] private RenderTexture rtTest;
-        [SerializeField] private Transform windowPrefab;
-        [SerializeField] private RectTransform linePrefab;
-        private Transform window;
-        private RectTransform line;
-        private Vector2 startDragPos;
-        private Canvas canvas;
-        //
+        [SerializeField] private Camera renderingCamera;
+        [SerializeField] private RectTransform sourceWindow;
+        [SerializeField] private RenderTexture pullableRT;
+        [SerializeField] private WindowOpenCloseAnim windowPrefab;
+        [SerializeField] private Image linePrefab;
 
         private Outline outline;
+        private WindowOpenCloseAnim window;
+        private Image line;
+
+        private bool isDragged = false;
 
         void Start()
         {
-            //Quick & dirty for overlay canvas parent
-            canvas = FindObjectsByType<Canvas>(FindObjectsSortMode.None)
-                .Where(canvas => canvas.renderMode == RenderMode.ScreenSpaceOverlay).First();
-
             Outline lOutline = GetComponent<Outline>();
             outline = lOutline == null ? gameObject.AddComponent<Outline>() : lOutline;
             outline.enabled = false;
         }
 
+        private Vector2 PositionOnSourceWindow()
+        {
+            Vector2 lPos = sourceWindow.ViewportToLocalPoint(
+                renderingCamera.WorldToViewportPoint(transform.position));
+
+            return lPos;
+        }
+
+        private Tweener TweenOutline(float finalWidth)
+        {
+            outline.DOKill();
+
+            if (finalWidth != 0f)
+                outline.enabled = true;
+
+            return DOVirtual.Float(outline.OutlineWidth, finalWidth, tweenDuration,
+                width => outline.OutlineWidth = width).SetTarget(outline)
+                .OnComplete(() =>
+                {
+                    if (finalWidth == 0f)
+                        outline.enabled = false;
+                });
+        }
+
         public void OnPointerEnter(PointerEventData eventData)
         {
-            outline.enabled = true;
+            if (isDragged || window != null)
+                return;
+
             TweenOutline(hoverWidth);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            TweenOutline(0f, true);
+            if (isDragged || window != null)
+                return;
+
+            TweenOutline(0f);
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (window != null)
+                return;
+
             TweenOutline(interactWidth);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            if (window != null)
+                return;
+
             TweenOutline(hoverWidth);
-        }
-
-        private void TweenOutline(float finalWidth, bool disable = false)
-        {
-            outline.DOKill();
-
-            DOVirtual.Float(outline.OutlineWidth, finalWidth, tweenDuration,
-                width => outline.OutlineWidth = width).SetTarget(outline)
-                .OnComplete(() =>
-                {
-                    if (disable)
-                        outline.enabled = false;
-                });
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -82,38 +99,61 @@ namespace Root
                 return;
             }
 
-            line = Instantiate(linePrefab, canvas.transform);
-
-            Camera lCamera = FindObjectsByType<Camera>(FindObjectsSortMode.None)
-                .Where(camera => camera.name == "CameraViewDoor").First();
-
-            //test
-            startDragPos = refInUI.rectTransform.ViewportToLocalPoint(
-                lCamera.WorldToViewportPoint(transform.position));
-
-            startDragPos = refInUI.rectTransform.TransformPoint(startDragPos);
-            startDragPos = canvas.GetComponent<RectTransform>().InverseTransformPoint(startDragPos);
+            isDragged = true;
+            line = Instantiate(linePrefab, sourceWindow);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.GetComponent<RectTransform>(), eventData.position,
-            eventData.pressEventCamera, out Vector2 lCanvasPos);
-
-            line.Line(startDragPos, lCanvasPos, 24f);
-
-            if (window == null && Vector2.Distance(startDragPos, lCanvasPos) > 100f)
-            {
-                window = Instantiate(windowPrefab, canvas.transform);
-                window.GetComponentInChildren<RawImage>().texture = rtTest;
-            }
-            else if (window != null)
-                window.localPosition = lCanvasPos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(sourceWindow, eventData.position,
+            eventData.pressEventCamera, out Vector2 lLocalPos);
+            line.rectTransform.Line(PositionOnSourceWindow(), lLocalPos, 24f);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Destroy(line.gameObject);
+            isDragged = false;
+            RectTransform lSourceWindowCanvasRectTransform = sourceWindow.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(lSourceWindowCanvasRectTransform, eventData.position,
+            eventData.pressEventCamera, out Vector2 lCanvasPos);
+
+            window = Instantiate(windowPrefab, lSourceWindowCanvasRectTransform);
+            window.GetComponentInChildren<RawImage>().texture = pullableRT;
+            window.transform.localPosition = lCanvasPos;
+            window.OnStartOut += Window_OnStartOut;
+
+            outline.DOKill();
+            outline.OutlineWidth = hoverWidth;
+            DOVirtual.Float(outline.OutlineWidth, interactWidth, tweenDuration * 2f, width => outline.OutlineWidth = width)
+                .SetTarget(outline)
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+
+        private void Window_OnStartOut(float duration)
+        {
+            TweenOutline(0f);
+            line.DOFade(0f, duration)
+                .OnComplete
+                (() =>
+                {
+                    Destroy(line.gameObject);
+                });
+        }
+
+        private void LateUpdate()
+        {
+            if (window != null && line != null)
+            {
+                line.rectTransform.Line(PositionOnSourceWindow(), sourceWindow.InverseTransformPoint(window.transform.position), 24f);
+                Vector2 lViewportPoint = renderingCamera.WorldToViewportPoint(transform.position);
+
+                if (lViewportPoint.x > 1f || lViewportPoint.x < 0f || lViewportPoint.y > 1f || lViewportPoint.y < 0f)
+                {
+                    window.Out();
+                    window = null;
+                }
+            }
         }
     }
 }

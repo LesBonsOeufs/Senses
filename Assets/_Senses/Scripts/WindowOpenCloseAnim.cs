@@ -1,5 +1,6 @@
 using DG.Tweening;
 using NaughtyAttributes;
+using System;
 using UnityEngine;
 
 namespace Root
@@ -13,6 +14,8 @@ namespace Root
         [SerializeField] private bool destroyOnOut = false;
 
         private Tween anim;
+
+        public event Action<float> OnStartOut;
 
         private void Start()
         {
@@ -41,6 +44,7 @@ namespace Root
         [Button]
         public void Out()
         {
+            OnStartOut?.Invoke(fadeDuration);
             anim?.Kill();
 
             CanvasGroup lCanvasGroup = GetComponent<CanvasGroup>();

@@ -157,7 +157,7 @@ MonoBehaviour:
   fadeDuration: 0.2
   scaleDuration: 0.25
   startScale: 0.75
-  destroyOnOut: 0
+  destroyOnOut: 1
 --- !u!222 &2831243408487530717
 CanvasRenderer:
   m_ObjectHideFlags: 0
