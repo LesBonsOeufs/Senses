@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Linq;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,7 +16,6 @@ namespace Root
 
         [SerializeField] private Camera renderingCamera;
         [SerializeField] private RectTransform sourceWindow;
-        [SerializeField] private RenderTexture pullableRT;
         [SerializeField] private WindowOpenCloseAnim windowPrefab;
         [SerializeField] private Image linePrefab;
 
@@ -119,7 +116,6 @@ namespace Root
             eventData.pressEventCamera, out Vector2 lCanvasPos);
 
             window = Instantiate(windowPrefab, lSourceWindowCanvasRectTransform);
-            window.GetComponentInChildren<RawImage>().texture = pullableRT;
             window.transform.localPosition = lCanvasPos;
             window.OnStartOut += Window_OnStartOut;
 

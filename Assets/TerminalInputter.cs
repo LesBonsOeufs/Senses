@@ -6,10 +6,16 @@ namespace Root
 {
     public class TerminalInputter : MonoBehaviour
     {
-        [SerializeField] private TMP_InputField inputField;
-        [SerializeField] private CmdTerminal to;
+        private TMP_InputField inputField;
+        private CmdTerminal to;
 
         private void Awake()
+        {
+            to = FindAnyObjectByType<CmdTerminal>();
+            inputField = to.GetComponentInChildren<TMP_InputField>();
+        }
+
+        private void Start()
         {
             inputField.onSubmit.AddListener(InputField_OnSubmit);
         }

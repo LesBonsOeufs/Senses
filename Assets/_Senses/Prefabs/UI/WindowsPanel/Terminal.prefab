@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1114304934930542356}
   - component: {fileID: 8009612405216757407}
   - component: {fileID: 4544288133022849136}
-  - component: {fileID: 8516055143174912982}
   m_Layer: 0
   m_Name: Terminal
   m_TagString: Untagged
@@ -97,20 +96,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &8516055143174912982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 26391311607105900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cd863991851b6c4895a5bcefc6d199c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputField: {fileID: 7613389290697261876}
-  to: {fileID: 8009612405216757407}
 --- !u!1 &7042723808617495271
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,6 +428,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3172211707896997259, guid: 4e8e950a478209a42b293bc4bfa4089b,
         type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1300
+      objectReference: {fileID: 0}
+    - target: {fileID: 3172211707896997259, guid: 4e8e950a478209a42b293bc4bfa4089b,
+        type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
@@ -542,15 +532,3 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8795821705402249471}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7613389290697261876 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1421228755076903883, guid: 4e8e950a478209a42b293bc4bfa4089b,
-    type: 3}
-  m_PrefabInstance: {fileID: 8795821705402249471}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

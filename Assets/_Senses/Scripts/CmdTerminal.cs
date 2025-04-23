@@ -17,7 +17,7 @@ namespace Root
         private void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
-            directoryPrefixTmp.text = "C:\\Users\\PC>";
+            directoryPrefixTmp.text = "X:\\Admin\\PC>";
         }
 
         public void InsertInteraction(string input, string output)
