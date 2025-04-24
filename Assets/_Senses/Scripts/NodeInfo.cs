@@ -34,7 +34,7 @@ namespace Root
     public struct Route
     {
         public string accessKeyword;
-        public bool isBack;
+        public bool isPrevious;
         [InfoBox("The entered node won't be used if isBack is true", EInfoBoxType.Warning)] public NodeInfo to;
     }
 }

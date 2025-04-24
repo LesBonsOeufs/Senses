@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   synonyms:
     _serializedList:
+    - Key: back
+      Value:
+      - exit
+      - leave
     - Key: connect
       Value:
       - Link

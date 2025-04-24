@@ -42,16 +42,16 @@ namespace Root
         public EResult TryRouteKeyword(string keyword, out NodeInfo node)
         {
             //Routes array made of current node's routes + mail route (mail system accessible everywhere)
-            List<Route> lRoutes = new(Current.Routes)
-            {
-                new Route { accessKeyword = mailHandler.AccessKey, to = mailHandler.MailNode }
-            };
+            List<Route> lRoutes = new(Current.Routes);
+
+            if (mailHandler != null)
+                lRoutes.Add(new Route { accessKeyword = mailHandler.AccessKey, to = mailHandler.MailNode });
 
             foreach (Route lRoute in lRoutes)
             {
                 if (synonymDatabase.IsSynonymOf(keyword, lRoute.accessKeyword))
                 {
-                    node = lRoute.isBack ? previousNode : lRoute.to;
+                    node = lRoute.isPrevious ? previousNode : lRoute.to;
 
                     if (node.WindowToOpenPrefab != null)
                     {
@@ -84,7 +84,8 @@ namespace Root
                 }
             }
 
-            node = mailHandler.QuickMail(keyword);
+            if (mailHandler != null)
+                node = mailHandler.QuickMail(keyword);
 
             if (node != null)
                 return EResult.MAIL;

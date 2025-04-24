@@ -1671,64 +1671,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!1 &489583678
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 489583679}
-  - component: {fileID: 489583680}
-  m_Layer: 0
-  m_Name: MailHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &489583679
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 489583678}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1330820159}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &489583680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 489583678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 706146c37c055aa4697ac3882d57f7e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <AccessKey>k__BackingField: mail
-  <MailNode>k__BackingField: {fileID: 11400000, guid: bea649222b5347f49874adef0483a2d2,
-    type: 2}
-  quickMails:
-    _serializedList:
-    - Key: 3987892
-      Value: {fileID: 11400000, guid: 5c85ee257c94b53409687354d7e0141e, type: 2}
-    - Key: 93852
-      Value: {fileID: 11400000, guid: 0bf6ed21edf74d34d9717c16cd0d6e24, type: 2}
-    - Key: 720628
-      Value: {fileID: 11400000, guid: e2af224a8363df34686923088682bbf3, type: 2}
-    - Key: 59285
-      Value: {fileID: 11400000, guid: 02c2651d59c846b46977f628700c754a, type: 2}
-  runtimeAddedRoutes: []
 --- !u!1 &522471711
 GameObject:
   m_ObjectHideFlags: 0
@@ -3944,10 +3886,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 0
-  startNode: {fileID: 11400000, guid: de2c51a25bce08c4f94f905cf1433918, type: 2}
+  startNode: {fileID: 11400000, guid: 75470c136753fa6418bb6c635a83b592, type: 2}
   synonymDatabase: {fileID: 11400000, guid: cd87b0ef323d4e243a6545db88361b17, type: 2}
   eventRoutes: {fileID: 1848328301}
-  mailHandler: {fileID: 489583680}
+  mailHandler: {fileID: 0}
 --- !u!43 &571317174
 Mesh:
   m_ObjectHideFlags: 0
@@ -9617,7 +9559,6 @@ Transform:
   - {fileID: 218982213}
   - {fileID: 564890802}
   - {fileID: 1848328300}
-  - {fileID: 489583679}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1378929865

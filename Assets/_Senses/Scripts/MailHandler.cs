@@ -40,7 +40,7 @@ namespace Root
 
             foreach (Route lRoute in MailNode.Routes)
             {
-                if (lRoute.isBack)
+                if (lRoute.isPrevious)
                     continue;
 
                 lReturnedText += $"{lRoute.accessKeyword}->{lRoute.to.AccessText.Split("\n")[0]}\n";

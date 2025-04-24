@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 029dcfc20036f9d47b4ba2666c503ab6, type: 3}
-  m_Name: START_NoInternet
+  m_Name: DoorOpener
   m_EditorClassIdentifier: 
-  <IsWarpInstant>k__BackingField: 1
-  <WarpingText>k__BackingField: 
-  <AccessText>k__BackingField: 
+  <IsWarpInstant>k__BackingField: 0
+  <WarpingText>k__BackingField: Entering <color=green>Door system</color>
+  <AccessText>k__BackingField: '<color=green>---Door---</color>
+
+    Type back to
+    leave'
   <IsPositional>k__BackingField: 1
   <Routes>k__BackingField:
-  - accessKeyword: connect
-    to: {fileID: 11400000, guid: 62c81acfefc6a894fb67e91dd75fb1e4, type: 2}
-  <Routebs>k__BackingField:
-  - accessKeyword: connect
-    to: {fileID: 11400000, guid: 62c81acfefc6a894fb67e91dd75fb1e4, type: 2}
-  <KeywordFailText>k__BackingField: No connection. Please enter suitable command.
+  - accessKeyword: back
+    isPrevious: 1
+    to: {fileID: 0}
+  <KeywordFailText>k__BackingField: <color=red>Wrong code</color>
   <WindowToOpenPrefab>k__BackingField: {fileID: 0}

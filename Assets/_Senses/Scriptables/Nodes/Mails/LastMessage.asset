@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 029dcfc20036f9d47b4ba2666c503ab6, type: 3}
-  m_Name: Mail_2
+  m_Name: LastMessage
   m_EditorClassIdentifier: 
   <IsWarpInstant>k__BackingField: 1
   <WarpingText>k__BackingField: 
-  <AccessText>k__BackingField: 
+  <AccessText>k__BackingField: 'Reading mail:
+
+    I might have managed to escape.
+
+    Green
+    + blue [...] '
   <IsPositional>k__BackingField: 0
   <Routes>k__BackingField: []
-  <KeywordFailText>k__BackingField: 
+  <KeywordFailText>k__BackingField: <color=red>Wrong code</color>
   <WindowToOpenPrefab>k__BackingField: {fileID: 0}
-  special:
-    m_PersistentCalls:
-      m_Calls: []
