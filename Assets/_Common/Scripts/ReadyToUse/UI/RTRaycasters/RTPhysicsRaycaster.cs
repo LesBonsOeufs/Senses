@@ -41,7 +41,7 @@ public class RTPhysicsRaycaster : BaseRaycaster
 
     #endregion
 
-    [Tooltip("Source camera of the render texture"), SerializeField]
+    [Tooltip("Source camera of the render texture"), SerializeField, ReadOnly]
     private Camera sourceCamera;
     [SerializeField, ReadOnly] private GraphicRaycaster graphicRaycaster;
 
@@ -83,7 +83,14 @@ public class RTPhysicsRaycaster : BaseRaycaster
     {
         base.Start();
         rawImage = GetComponent<RawImage>();
-        graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
+
+        if (rawImage.texture is RenderTexture lRT)
+        {
+            sourceCamera = lRT.FindSourceCamera();
+            graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
+        }
+        else
+            Debug.LogError("No render texture assigned to the RawImage!");
     }
 
     private void LateUpdate()

@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
 using UnityEngine.Serialization;
+using NaughtyAttributes;
+using System.Linq;
 
 [RequireComponent(typeof(RawImage))]
 public class RTGraphicRaycaster : BaseRaycaster
@@ -98,26 +100,7 @@ public class RTGraphicRaycaster : BaseRaycaster
 
     [NonSerialized] private List<Graphic> m_RaycastResults = new List<Graphic>();
 
-    /// <summary>
-    /// The camera that will generate rays for this raycaster.
-    /// </summary>
-    /// <returns>
-    /// - Null if Camera mode is ScreenSpaceOverlay or ScreenSpaceCamera and has no camera.
-    /// - canvas.worldCanvas if not null
-    /// - Camera.main.
-    /// </returns>
-    public override Camera eventCamera
-    {
-        get
-        {
-            var renderMode = sourceCanvas.renderMode;
-            if (renderMode == RenderMode.ScreenSpaceOverlay
-                || (renderMode == RenderMode.ScreenSpaceCamera && sourceCanvas.worldCamera == null))
-                return null;
-
-            return sourceCanvas.worldCamera ?? Camera.main;
-        }
-    }
+    public override Camera eventCamera => sourceCamera;
 
     /// <summary>
     /// Perform a raycast into the screen and collect all graphics underneath it.
@@ -157,7 +140,9 @@ public class RTGraphicRaycaster : BaseRaycaster
 
     #endregion
 
-    [Tooltip("Source Canvas of the render texture"), SerializeField]
+    [Tooltip("Source camera of the render texture"), SerializeField, ReadOnly]
+    private Camera sourceCamera;
+    [Tooltip("Canvas to read from"), SerializeField, ReadOnly]
     private Canvas sourceCanvas;
 
     private RawImage rawImage;
@@ -166,6 +151,15 @@ public class RTGraphicRaycaster : BaseRaycaster
     {
         base.Start();
         rawImage = GetComponent<RawImage>();
+
+        if (rawImage.texture is RenderTexture lRT)
+        {
+            sourceCamera = lRT.FindSourceCamera();
+            sourceCanvas = FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                .Where(canvas => canvas.worldCamera == sourceCamera).First();
+        }
+        else
+            Debug.LogError("No render texture assigned to the RawImage!");
     }
 
     public override void Raycast(PointerEventData eventData, List<RaycastResult> resultAppendList)
@@ -200,14 +194,11 @@ public class RTGraphicRaycaster : BaseRaycaster
         m_RaycastResults.Clear();
         Raycast(lCurrentEventCamera, lCurrentEventCamera.ViewportToScreenPoint(lUv), lCanvasGraphics, m_RaycastResults);
 
-        Debug.Log(lUv);
         int lTotalCount = m_RaycastResults.Count;
 
         for (int index = 0; index < lTotalCount; index++)
         {
             GameObject lGo = m_RaycastResults[index].gameObject;
-
-            Debug.Log(lGo.name);
             bool lAppendGraphic = true;
 
             if (ignoreReversedGraphics)
