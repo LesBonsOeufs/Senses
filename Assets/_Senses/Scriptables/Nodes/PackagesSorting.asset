@@ -28,4 +28,6 @@ MonoBehaviour:
     isPrevious: 1
     to: {fileID: 0}
   <KeywordFailText>k__BackingField: 
-  <WindowToOpenPrefab>k__BackingField: {fileID: 0}
+  <Directory>k__BackingField: Sorting
+  <WindowFromDirectory>k__BackingField: {fileID: 2044412335768260870, guid: a90d6734ac8d453469121ac638a6b507,
+    type: 3}

@@ -37,4 +37,5 @@ MonoBehaviour:
     isPrevious: 0
     to: {fileID: 11400000, guid: a3ba09bae502cab42a946ee6d1f4063e, type: 2}
   <KeywordFailText>k__BackingField: Index not assigned
-  <WindowToOpenPrefab>k__BackingField: {fileID: 0}
+  <Directory>k__BackingField: Mail
+  <WindowFromDirectory>k__BackingField: {fileID: 0}

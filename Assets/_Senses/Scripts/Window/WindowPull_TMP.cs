@@ -1,36 +1,48 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
 namespace Root
 {
     [RequireComponent(typeof(TextMeshProUGUI))]
-    public class WindowPull_TMP : WindowPullBase
+    public class WindowPull_TMP : WindowPull_AnimatedBase
     {
         private TextMeshProUGUI tmp;
+        private Material tmpMaterial;
+
+        private float Glow
+        {
+            get => tmpMaterial.GetFloat(ShaderUtilities.ID_GlowOuter);
+
+            set
+            {
+                tmpMaterial.SetFloat(ShaderUtilities.ID_GlowInner, value);
+                tmpMaterial.SetFloat(ShaderUtilities.ID_GlowOuter, value);
+            }
+        }
 
         private void Start()
         {
             tmp = GetComponent<TextMeshProUGUI>();
+            tmpMaterial = tmp.fontMaterial;
         }
 
-        public override void In()
+        protected override Tweener InteractAnimate(float finalValue)
         {
-            tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.1f);
+            tmp.DOKill();
+
+            return DOVirtual.Float(Glow, finalValue, tweenDuration,
+                glow => Glow = glow).SetTarget(tmp);
         }
 
-        public override void Out()
+        protected override Tweener InUseAnimateLoop()
         {
-            tmp.fontSharedMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0f);
-        }
+            tmp.DOKill();
+            Glow = 0f;
 
-        public override void InteractOff()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override void InteractOn()
-        {
-            throw new System.NotImplementedException();
+            return DOVirtual.Float(Glow, 1f, tweenDuration * 2f, glow => Glow = glow)
+                .SetTarget(tmp)
+                .SetLoops(-1, LoopType.Yoyo);
         }
     }
 }

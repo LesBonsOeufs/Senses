@@ -9,11 +9,11 @@ namespace Root
     public abstract class WindowPullBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, 
         IPointerUpHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
-        [SerializeField] private Camera renderingCamera;
-        [SerializeField] private RectTransform sourceWindow;
-        [SerializeField] private WindowOpenCloseAnim windowPrefab;
+        public WindowOpenCloseAnim windowPrefab;
+        [SerializeField, Tooltip("The camera rendering this object")] private Camera renderingCamera;
         [SerializeField] private Image linePrefab;
 
+        private RectTransform sourceWindow;
         private WindowOpenCloseAnim window;
         private Image line;
 
@@ -27,9 +27,24 @@ namespace Root
             return lPos;
         }
 
+        private WindowOpenCloseAnim GetCurrentSourceWindow()
+        {
+            WindowOpenCloseAnim[] lWindows = FindObjectsByType<WindowOpenCloseAnim>(FindObjectsSortMode.None);
+
+            foreach (WindowOpenCloseAnim lWindow in lWindows)
+            {
+                RenderTexture lRenderTexture = lWindow.GetComponentInChildren<RawImage>().texture as RenderTexture;
+
+                if (lRenderTexture != null && lRenderTexture == renderingCamera.targetTexture)
+                    return lWindow;
+            }
+
+            return null;
+        }
+
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (isDragged || window != null)
+            if (windowPrefab == null || isDragged || window != null)
                 return;
 
             In();
@@ -39,7 +54,7 @@ namespace Root
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (isDragged || window != null)
+            if (windowPrefab == null || isDragged || window != null)
                 return;
 
             Out();
@@ -49,7 +64,7 @@ namespace Root
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (window != null)
+            if (windowPrefab == null || window != null)
                 return;
 
             InteractOn();
@@ -59,7 +74,7 @@ namespace Root
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (window != null)
+            if (windowPrefab == null || window != null)
                 return;
 
             InteractOff();
@@ -69,11 +84,14 @@ namespace Root
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (window != null)
+            if (windowPrefab == null || window != null)
             {
                 eventData.pointerDrag = null;
                 return;
             }
+
+            //Get source window from renderingCamera's renderTexture
+            sourceWindow = GetCurrentSourceWindow().GetComponent<RectTransform>();
 
             isDragged = true;
             line = Instantiate(linePrefab, sourceWindow);

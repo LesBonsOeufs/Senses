@@ -1,4 +1,6 @@
 using NaughtyAttributes;
+using System.Text.RegularExpressions;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +10,9 @@ namespace Root
     [RequireComponent(typeof(RectTransform))]
     public class CmdTerminal : MonoBehaviour
     {
+        [SerializeField] private WindowPullBase windowPuller;
         [SerializeField, ReadOnly] private RectTransform containerPanel;
-        [SerializeField] private TextMeshProUGUI directoryPrefixTmp;
+        [SerializeField] private TextMeshProUGUI directoryTmp;
         [SerializeField] private TextMeshProUGUI writtenLinePrefab;
 
         private RectTransform rectTransform;
@@ -17,21 +20,46 @@ namespace Root
         private void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
-            directoryPrefixTmp.text = "X:\\Admin\\PC>";
         }
 
-        public void InsertInteraction(string input, string output)
+        private void Start()
         {
-            TextMeshProUGUI lInputLine = Instantiate(writtenLinePrefab, transform);
-            lInputLine.text = $"{directoryPrefixTmp.text}{input}";
-            TextMeshProUGUI lOutputLine = Instantiate(writtenLinePrefab, transform);
-            lOutputLine.text = output;
+            InsertInteraction(null, new Interpreter.SResult
+            {
+                output = NodeManager.Instance.Current.AccessText,
+                directory = NodeManager.Instance.Current.Directory,
+                windowFromDirectory = NodeManager.Instance.Current.WindowFromDirectory
+            });
+        }
 
-            directoryPrefixTmp.transform.SetAsLastSibling();
+        public void InsertInteraction(string input, Interpreter.SResult result)
+        {
+
+            TextMeshProUGUI lInputLine = null;
+            if (input != null)
+            {
+                lInputLine = Instantiate(writtenLinePrefab, transform);
+                string lSimplifiedDirectoryText = Regex.Replace(directoryTmp.text, "<.*?>", string.Empty);
+                lInputLine.text = $"{lSimplifiedDirectoryText}{input}";
+            }
+            
+            TextMeshProUGUI lOutputLine = Instantiate(writtenLinePrefab, transform);
+            lOutputLine.text = result.output;
+
+            if (result.directory != null)
+                directoryTmp.text = $"X:\\{result.directory}>";
+
+            if (result.windowFromDirectory != null)
+            {
+                windowPuller.windowPrefab = result.windowFromDirectory;
+                directoryTmp.text = $"<color=yellow>{directoryTmp.text}</color>";
+            }
+
+            directoryTmp.transform.SetAsLastSibling();
             Interpreter.Instance.transform.SetAsLastSibling();
             LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
 
-            float lInputHeight = lInputLine.rectTransform.rect.height;
+            float lInputHeight = lInputLine ? lInputLine.rectTransform.rect.height : 0f;
             float lOutputHeight = lOutputLine.rectTransform.rect.height;
 
             float lHardHeightLimit = containerPanel.rect.height * 3f;

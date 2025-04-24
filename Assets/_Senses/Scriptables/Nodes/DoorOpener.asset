@@ -24,4 +24,5 @@ MonoBehaviour:
     isPrevious: 1
     to: {fileID: 0}
   <KeywordFailText>k__BackingField: <color=red>Wrong code</color>
-  <WindowToOpenPrefab>k__BackingField: {fileID: 0}
+  <Directory>k__BackingField: Door
+  <WindowFromDirectory>k__BackingField: {fileID: 0}

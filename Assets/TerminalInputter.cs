@@ -25,7 +25,7 @@ namespace Root
             if (inputField.text != "")
             {
                 inputField.enabled = false;
-                string lResult = await Interpreter.Instance.Execute(text);
+                Interpreter.SResult lResult = await Interpreter.Instance.Execute(text);
                 inputField.enabled = true;
                 inputField.text = "";
 

@@ -10,19 +10,23 @@ namespace Root
 
         [SerializeField] private TextMeshProUGUI interpreterTmp;
 
-        public async Awaitable<string> Execute(string input)
+        public async Awaitable<SResult> Execute(string input)
         {
             CancellationTokenSource lWaitingTextCTS = new();
             CancellationTokenSource lLinkedCTS = CancellationTokenSource.CreateLinkedTokenSource(
                 lWaitingTextCTS.Token,
                 destroyCancellationToken);
 
+            SResult lResult = new();
             string lWaitingPrefix = "";
             string lOutput = "";
 
             switch (NodeManager.Instance.TryRouteKeyword(input, out NodeInfo lNode))
             {
                 case NodeManager.EResult.POSITIONAL:
+                    lResult.directory = lNode.Directory;
+                    lResult.windowFromDirectory = lNode.WindowFromDirectory;
+                    goto case NodeManager.EResult.NON_POSITIONAL;
                 case NodeManager.EResult.NON_POSITIONAL:
                     lOutput = lNode.AccessText;
                     lWaitingPrefix = Format(lNode.WarpingText, input);
@@ -39,6 +43,7 @@ namespace Root
                     break;
             }
 
+            lResult.output = Format(lOutput, input);
             bool lNodeReceived = lNode != null;
 
             if (lNodeReceived && !lNode.IsWarpInstant)
@@ -55,8 +60,8 @@ namespace Root
                     await lWaitingText; //Ensure cleanup
                 }
             }
-            
-            return Format(lOutput, input);
+
+            return lResult;
         }
 
         private async Awaitable WaitingText(CancellationToken cts, string prefix = "")
@@ -82,6 +87,13 @@ namespace Root
         private string Format(string text, string userInput)
         {
             return text.Replace(USER_INPUT_TAG, userInput);
+        }
+
+        public struct SResult
+        {
+            public string directory;
+            public WindowOpenCloseAnim windowFromDirectory;
+            public string output;
         }
     }
 }

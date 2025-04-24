@@ -53,12 +53,6 @@ namespace Root
                 {
                     node = lRoute.isPrevious ? previousNode : lRoute.to;
 
-                    if (node.WindowToOpenPrefab != null)
-                    {
-                        Instantiate(node.WindowToOpenPrefab, gameCanvas.transform.position,
-                                Quaternion.identity, gameCanvas.transform);
-                    }
-
                     if (node.IsPositional)
                     {
                         Current = node;
