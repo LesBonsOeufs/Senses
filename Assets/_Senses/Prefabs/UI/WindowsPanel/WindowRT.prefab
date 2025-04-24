@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2685539765286473652}
   - component: {fileID: 3750842818480069304}
   - component: {fileID: 3004990045732216747}
+  - component: {fileID: 1962273233970930400}
   m_Layer: 0
   m_Name: RT
   m_TagString: Untagged
@@ -72,6 +73,23 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &1962273233970930400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3950743233139550499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2c366833b01e7e48829e7420532b016, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  sourceCamera: {fileID: 0}
+  graphicRaycaster: {fileID: 0}
 --- !u!1001 &9023965674433017397
 PrefabInstance:
   m_ObjectHideFlags: 0

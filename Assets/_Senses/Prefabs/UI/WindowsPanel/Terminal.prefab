@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 7942069318057617419}
   - component: {fileID: 2176111138382508569}
   - component: {fileID: 7975910530782811820}
+  - component: {fileID: 6737169621818526452}
   m_Layer: 0
   m_Name: Prefix
   m_TagString: Untagged
@@ -157,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -249,6 +250,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
+--- !u!114 &6737169621818526452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7042723808617495271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5247a1de50454f841ab96ce6c495c133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderingCamera: {fileID: 0}
+  sourceWindow: {fileID: 0}
+  windowPrefab: {fileID: 0}
+  linePrefab: {fileID: 3521906135221559441, guid: 9a3138d46225c4044b28842d61be71e8,
+    type: 3}
 --- !u!1001 &1113127156188267197
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -391,6 +409,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5423925592502649857}
     m_Modifications:
+    - target: {fileID: 1421228755076903883, guid: 4e8e950a478209a42b293bc4bfa4089b,
+        type: 3}
+      propertyPath: m_CaretWidth
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1421228755076903883, guid: 4e8e950a478209a42b293bc4bfa4089b,
+        type: 3}
+      propertyPath: m_OnFocusSelectAll
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3008325117270758305, guid: 4e8e950a478209a42b293bc4bfa4089b,
         type: 3}
       propertyPath: m_Name
@@ -515,6 +543,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontSizeBase
       value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531520504859964902, guid: 4e8e950a478209a42b293bc4bfa4089b,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4462914866988589467, guid: 4e8e950a478209a42b293bc4bfa4089b,
         type: 3}

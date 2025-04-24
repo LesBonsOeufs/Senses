@@ -3,34 +3,21 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-using Outline = QuickOutline.Outline;
 
 namespace Root
 {
-    public class WindowPull : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
-        , IDragHandler, IBeginDragHandler, IEndDragHandler
+    public abstract class WindowPullBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, 
+        IPointerUpHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
-        [SerializeField] private float hoverWidth = 5f;
-        [SerializeField] private float interactWidth = 10f;
-        [SerializeField] private float tweenDuration = 0.2f;
-
         [SerializeField] private Camera renderingCamera;
         [SerializeField] private RectTransform sourceWindow;
         [SerializeField] private WindowOpenCloseAnim windowPrefab;
         [SerializeField] private Image linePrefab;
 
-        private Outline outline;
         private WindowOpenCloseAnim window;
         private Image line;
 
         private bool isDragged = false;
-
-        void Start()
-        {
-            Outline lOutline = GetComponent<Outline>();
-            outline = lOutline == null ? gameObject.AddComponent<Outline>() : lOutline;
-            outline.enabled = false;
-        }
 
         private Vector2 PositionOnSourceWindow()
         {
@@ -40,53 +27,45 @@ namespace Root
             return lPos;
         }
 
-        private Tweener TweenOutline(float finalWidth)
-        {
-            outline.DOKill();
-
-            if (finalWidth != 0f)
-                outline.enabled = true;
-
-            return DOVirtual.Float(outline.OutlineWidth, finalWidth, tweenDuration,
-                width => outline.OutlineWidth = width).SetTarget(outline)
-                .OnComplete(() =>
-                {
-                    if (finalWidth == 0f)
-                        outline.enabled = false;
-                });
-        }
-
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (isDragged || window != null)
                 return;
 
-            TweenOutline(hoverWidth);
+            In();
         }
+
+        public abstract void In();
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (isDragged || window != null)
                 return;
 
-            TweenOutline(0f);
+            Out();
         }
+
+        public abstract void Out();
 
         public void OnPointerDown(PointerEventData eventData)
         {
             if (window != null)
                 return;
 
-            TweenOutline(interactWidth);
+            InteractOn();
         }
+
+        public abstract void InteractOn();
 
         public void OnPointerUp(PointerEventData eventData)
         {
             if (window != null)
                 return;
 
-            TweenOutline(hoverWidth);
+            InteractOff();
         }
+
+        public abstract void InteractOff();
 
         public void OnBeginDrag(PointerEventData eventData)
         {
@@ -115,20 +94,18 @@ namespace Root
             RectTransformUtility.ScreenPointToLocalPointInRectangle(lSourceWindowCanvasRectTransform, eventData.position,
             eventData.pressEventCamera, out Vector2 lCanvasPos);
 
-            window = Instantiate(windowPrefab, lSourceWindowCanvasRectTransform);
-            window.transform.localPosition = lCanvasPos;
-            window.OnStartOut += Window_OnStartOut;
-
-            outline.DOKill();
-            outline.OutlineWidth = hoverWidth;
-            DOVirtual.Float(outline.OutlineWidth, interactWidth, tweenDuration * 2f, width => outline.OutlineWidth = width)
-                .SetTarget(outline)
-                .SetLoops(-1, LoopType.Yoyo);
+            MakeWindow(lSourceWindowCanvasRectTransform, lCanvasPos);
         }
 
-        private void Window_OnStartOut(float duration)
+        protected virtual void MakeWindow(Transform parent, Vector2 position)
         {
-            TweenOutline(0f);
+            window = Instantiate(windowPrefab, parent);
+            window.transform.localPosition = position;
+            window.OnStartOut += Window_OnStartOut;
+        }
+
+        protected virtual void Window_OnStartOut(float duration)
+        {
             line.DOFade(0f, duration)
                 .OnComplete
                 (() =>
