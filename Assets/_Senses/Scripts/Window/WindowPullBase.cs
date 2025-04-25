@@ -13,7 +13,9 @@ namespace Root
         [SerializeField, Tooltip("The camera rendering this object")] private Camera renderingCamera;
         [SerializeField] private Image linePrefab;
 
-        private RectTransform sourceWindow;
+        private WindowOpenCloseAnim sourceWindow;
+        private RectTransform sourceWindowRectTransform;
+
         private WindowOpenCloseAnim window;
         private Image line;
 
@@ -21,7 +23,7 @@ namespace Root
 
         private Vector2 PositionOnSourceWindow()
         {
-            Vector2 lPos = sourceWindow.ViewportToLocalPoint(
+            Vector2 lPos = sourceWindowRectTransform.ViewportToLocalPoint(
                 renderingCamera.WorldToViewportPoint(transform.position));
 
             return lPos;
@@ -90,16 +92,21 @@ namespace Root
                 return;
             }
 
+            if (sourceWindow != null)
+                sourceWindow.OnStartOut -= SourceWindow_OnStartOut;
+
             //Get source window from renderingCamera's renderTexture
-            sourceWindow = GetCurrentSourceWindow().GetComponent<RectTransform>();
+            sourceWindow = GetCurrentSourceWindow();
+            sourceWindowRectTransform = sourceWindow.GetComponent<RectTransform>();
+            sourceWindow.OnStartOut += SourceWindow_OnStartOut;
 
             isDragged = true;
-            line = Instantiate(linePrefab, sourceWindow);
+            line = Instantiate(linePrefab, sourceWindowRectTransform);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(sourceWindow, eventData.position,
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(sourceWindowRectTransform, eventData.position,
             eventData.pressEventCamera, out Vector2 lLocalPos);
             line.rectTransform.Line(PositionOnSourceWindow(), lLocalPos, 24f);
         }
@@ -107,7 +114,7 @@ namespace Root
         public void OnEndDrag(PointerEventData eventData)
         {
             isDragged = false;
-            RectTransform lSourceWindowCanvasRectTransform = sourceWindow.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+            RectTransform lSourceWindowCanvasRectTransform = sourceWindowRectTransform.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(lSourceWindowCanvasRectTransform, eventData.position,
             eventData.pressEventCamera, out Vector2 lCanvasPos);
@@ -120,6 +127,12 @@ namespace Root
             window = Instantiate(windowPrefab, parent);
             window.transform.localPosition = position;
             window.OnStartOut += Window_OnStartOut;
+        }
+
+        private void SourceWindow_OnStartOut(float duration)
+        {
+            window.Out();
+            window = null;
         }
 
         protected virtual void Window_OnStartOut(float duration)
@@ -136,7 +149,7 @@ namespace Root
         {
             if (window != null && line != null)
             {
-                line.rectTransform.Line(PositionOnSourceWindow(), sourceWindow.InverseTransformPoint(window.transform.position), 24f);
+                line.rectTransform.Line(PositionOnSourceWindow(), sourceWindowRectTransform.InverseTransformPoint(window.transform.position), 24f);
                 Vector2 lViewportPoint = renderingCamera.WorldToViewportPoint(transform.position);
 
                 if (lViewportPoint.x > 1f || lViewportPoint.x < 0f || lViewportPoint.y > 1f || lViewportPoint.y < 0f)
