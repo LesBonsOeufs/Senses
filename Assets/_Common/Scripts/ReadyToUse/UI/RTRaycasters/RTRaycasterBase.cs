@@ -9,13 +9,20 @@ public abstract class RTRaycasterBase : BaseRaycaster
 {
     [Tooltip("Source camera of the render texture"), SerializeField, ReadOnly]
     protected Camera sourceCamera;
+    [SerializeField, ReadOnly] private GraphicRaycaster graphicRaycaster;
+
+    [SerializeField] private bool forwardOnPress = false;
+    [SerializeField, ShowIf(nameof(forwardOnPress))] private RectTransform toForward;
 
     private RawImage rawImage;
 
-    [SerializeField, ReadOnly] private GraphicRaycaster graphicRaycaster;
-
     //Used for not directly disabling raycaster during Raycast method (throws an error)
-    private bool shouldGraphicRaycasterBeEnabled = true;
+    private bool pointerIsIn;
+    private bool lastPointerIsIn;
+
+    //Used for forwarding
+    private bool pointerIsDown;
+    private bool lastPointerIsDown;
 
     protected override void Start()
     {
@@ -36,6 +43,7 @@ public abstract class RTRaycasterBase : BaseRaycaster
         if (rawImage.texture == null)
             return;
 
+        pointerIsDown = eventData.eligibleForClick;
         RectTransform lRectTransform = rawImage.rectTransform;
 
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(lRectTransform, eventData.position,
@@ -47,12 +55,11 @@ public abstract class RTRaycasterBase : BaseRaycaster
 
         if (lUv.x < 0 || lUv.x > 1 || lUv.y < 0 || lUv.y > 1)
         {
-            shouldGraphicRaycasterBeEnabled = true;
+            pointerIsIn = false;
             return;
         }
 
-        shouldGraphicRaycasterBeEnabled = false;
-
+        pointerIsIn = true;
         RaycastFromRTUV(lUv, eventData, resultAppendList);
     }
 
@@ -61,6 +68,13 @@ public abstract class RTRaycasterBase : BaseRaycaster
     private void LateUpdate()
     {
         // Must disable used graphic raycaster to avoid unwinnable conflicts (this raycaster would be blocked)
-        graphicRaycaster.enabled = shouldGraphicRaycasterBeEnabled;
+        if (lastPointerIsIn != pointerIsIn)
+            graphicRaycaster.enabled = !pointerIsIn;
+
+        if (forwardOnPress && pointerIsIn && !lastPointerIsDown && pointerIsDown)
+            toForward.SetAsLastSibling();
+
+        lastPointerIsIn = pointerIsIn;
+        lastPointerIsDown = pointerIsDown;
     }
 }

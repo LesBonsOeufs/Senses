@@ -150,6 +150,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79b96c7f28f4f2448a3778ca7d92fe90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sourceCamera: {fileID: 0}
+  graphicRaycaster: {fileID: 0}
+  forwardOnPress: 1
+  toForward: {fileID: 8838686062896322519}
   m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
   m_BlockingMask:
@@ -174,3 +178,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd863991851b6c4895a5bcefc6d199c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &8838686062896322519 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4780258140689976025, guid: e200dd36991a2434fb08ce68cc8755bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 4107196371035970830}
+  m_PrefabAsset: {fileID: 0}

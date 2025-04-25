@@ -85,11 +85,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c366833b01e7e48829e7420532b016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sourceCamera: {fileID: 0}
+  graphicRaycaster: {fileID: 0}
+  forwardOnPress: 1
+  toForward: {fileID: 4780258140689976025}
   m_EventMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  sourceCamera: {fileID: 0}
-  graphicRaycaster: {fileID: 0}
 --- !u!1001 &9023965674433017397
 PrefabInstance:
   m_ObjectHideFlags: 0

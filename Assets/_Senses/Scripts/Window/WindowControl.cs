@@ -7,6 +7,7 @@ namespace Root
     public class WindowControl : MonoBehaviour, 
         IPointerDownHandler, IPointerExitHandler, IPointerUpHandler, IDragHandler
     {
+        [SerializeField] private Transform toForward;
         [SerializeField] private TextLineHighlighter textLineHighlighter;
         [SerializeField] private Transform basePoint;
         [SerializeField] private Transform topPoint;
@@ -25,10 +26,13 @@ namespace Root
             textLineHighlighter.UpdateHighlight(basePoint.position, eventData.position);
             RefreshInput(eventData.position);
             controllable.input = input;
-            eventData.Use();
         }
 
-        public void OnPointerDown(PointerEventData eventData) => OnDrag(eventData);
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            toForward.SetAsLastSibling();
+            OnDrag(eventData);
+        }
 
         public void OnPointerUp(PointerEventData eventData)
         {

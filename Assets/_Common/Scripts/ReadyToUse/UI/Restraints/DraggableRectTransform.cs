@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(RectTransform))]
-public class DraggableRectTransform : MonoBehaviour, IPointerDownHandler, IDragHandler
+public class DraggableRectTransform : MonoBehaviour, IDragHandler
 {
     [SerializeField] private bool appliesOnSelf = true;
     [SerializeField, HideIf(nameof(appliesOnSelf))] private RectTransform rectTransform;
@@ -15,11 +15,6 @@ public class DraggableRectTransform : MonoBehaviour, IPointerDownHandler, IDragH
             rectTransform = GetComponent<RectTransform>();
 
         canvas = rectTransform.GetComponentInParent<Canvas>();
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        rectTransform.SetAsLastSibling();
     }
 
     public void OnDrag(PointerEventData eventData)
