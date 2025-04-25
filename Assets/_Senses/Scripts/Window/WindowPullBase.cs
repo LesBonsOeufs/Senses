@@ -111,8 +111,6 @@ namespace Root
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(sourceWindowRectTransform, eventData.position,
             eventData.pressEventCamera, out Vector2 lLocalPos);
-
-            Debug.Log(lLocalPos);
             line.rectTransform.Line(PositionOnSourceWindow(), lLocalPos, 24f);
         }
 
