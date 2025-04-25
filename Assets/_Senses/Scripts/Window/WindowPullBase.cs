@@ -1,4 +1,5 @@
 using DG.Tweening;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,6 +14,8 @@ namespace Root
         [SerializeField, Tooltip("The camera rendering this object")] private Camera renderingCamera;
         [SerializeField] private Image linePrefab;
 
+        [Foldout("Advanced"), SerializeField] private Vector2 positionShift;
+
         private WindowOpenCloseAnim sourceWindow;
         private RectTransform sourceWindowRectTransform;
 
@@ -23,7 +26,7 @@ namespace Root
 
         private Vector2 PositionOnSourceWindow()
         {
-            Vector2 lPos = sourceWindowRectTransform.ViewportToLocalPoint(
+            Vector2 lPos = positionShift + sourceWindowRectTransform.ViewportToLocalPoint(
                 renderingCamera.WorldToViewportPoint(transform.position));
 
             return lPos;
@@ -108,6 +111,8 @@ namespace Root
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(sourceWindowRectTransform, eventData.position,
             eventData.pressEventCamera, out Vector2 lLocalPos);
+
+            Debug.Log(lLocalPos);
             line.rectTransform.Line(PositionOnSourceWindow(), lLocalPos, 24f);
         }
 
@@ -131,6 +136,9 @@ namespace Root
 
         private void SourceWindow_OnStartOut(float duration)
         {
+            if (window == null)
+                return;
+
             window.Out();
             window = null;
         }

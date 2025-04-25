@@ -34,39 +34,7 @@ public class RTPhysicsRaycaster : RTRaycasterBase
         set { m_EventMask = value; }
     }
 
-    protected Camera m_EventCamera;
-
     #endregion
-
-    public override Camera eventCamera
-    {
-        get
-        {
-            if (m_EventCamera == null)
-            {
-                Canvas lCanvas = GetComponentInParent<Canvas>();
-
-                switch (lCanvas.renderMode)
-                {
-                    case RenderMode.ScreenSpaceOverlay:
-                        m_EventCamera = null;
-                        break;
-                    case RenderMode.ScreenSpaceCamera:
-                        m_EventCamera = lCanvas.worldCamera;
-                        break;
-                    case RenderMode.WorldSpace:
-
-                        if (lCanvas.worldCamera != null)
-                            m_EventCamera = lCanvas.worldCamera;
-                        else
-                            m_EventCamera = Camera.main;
-                        break;
-                }
-            }
-
-            return m_EventCamera;
-        }
-    }
 
     protected override void RaycastFromRTUV(Vector2 uv, PointerEventData eventData, List<RaycastResult> resultAppendList)
     {

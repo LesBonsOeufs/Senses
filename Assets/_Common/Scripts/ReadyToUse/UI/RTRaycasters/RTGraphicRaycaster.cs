@@ -99,12 +99,11 @@ public class RTGraphicRaycaster : RTRaycasterBase
 
     [NonSerialized] private List<Graphic> m_RaycastResults = new List<Graphic>();
 
-    public override Camera eventCamera => sourceCamera;
-
     /// <summary>
     /// Perform a raycast into the screen and collect all graphics underneath it.
     /// </summary>
     [NonSerialized] static readonly List<Graphic> s_SortedGraphics = new List<Graphic>();
+
     private static void Raycast(Camera eventCamera, Vector2 pointerPosition, IList<Graphic> foundGraphics, List<Graphic> results)
     {
         // Necessary for the event system
@@ -156,15 +155,14 @@ public class RTGraphicRaycaster : RTRaycasterBase
         if (lCanvasGraphics == null || lCanvasGraphics.Count == 0)
             return;
 
-        Camera lCurrentEventCamera = eventCamera;
         float lHitDistance = float.MaxValue;
         Ray lRay = new();
 
-        if (lCurrentEventCamera != null)
-            lRay = lCurrentEventCamera.ViewportPointToRay(uv);
+        if (sourceCamera != null)
+            lRay = sourceCamera.ViewportPointToRay(uv);
 
         m_RaycastResults.Clear();
-        Raycast(lCurrentEventCamera, lCurrentEventCamera.ViewportToScreenPoint(uv), lCanvasGraphics, m_RaycastResults);
+        Raycast(sourceCamera, sourceCamera.ViewportToScreenPoint(uv), lCanvasGraphics, m_RaycastResults);
 
         int lTotalCount = m_RaycastResults.Count;
 
@@ -175,7 +173,7 @@ public class RTGraphicRaycaster : RTRaycasterBase
 
             if (ignoreReversedGraphics)
             {
-                if (lCurrentEventCamera == null)
+                if (sourceCamera == null)
                 {
                     // If we dont have a camera we know that we should always be facing forward
                     Vector3 lDir = lGo.transform.rotation * Vector3.forward;
@@ -184,8 +182,8 @@ public class RTGraphicRaycaster : RTRaycasterBase
                 else
                 {
                     // If we have a camera compare the direction against the cameras forward.
-                    Vector3 lCameraForward = lCurrentEventCamera.transform.rotation * Vector3.forward * lCurrentEventCamera.nearClipPlane;
-                    lAppendGraphic = Vector3.Dot(lGo.transform.position - lCurrentEventCamera.transform.position - lCameraForward, lGo.transform.forward) >= 0;
+                    Vector3 lCameraForward = sourceCamera.transform.rotation * Vector3.forward * sourceCamera.nearClipPlane;
+                    lAppendGraphic = Vector3.Dot(lGo.transform.position - sourceCamera.transform.position - lCameraForward, lGo.transform.forward) >= 0;
                 }
             }
 
@@ -195,7 +193,7 @@ public class RTGraphicRaycaster : RTRaycasterBase
                 Transform lTransform = lGo.transform;
                 Vector3 lForward = lTransform.forward;
 
-                if (lCurrentEventCamera == null || sourceCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
+                if (sourceCamera == null || sourceCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
                     lDistance = 0;
                 else
                 {
