@@ -12,6 +12,7 @@ namespace Root
         void Start()
         {
             outline = GetComponent<Outline>();
+            outline.OutlineWidth = 0f;
         }
 
         protected override Tweener InteractAnimate(float finalValue)
@@ -29,6 +30,12 @@ namespace Root
             return DOVirtual.Float(outline.OutlineWidth, 20f, tweenDuration * 2f, width => outline.OutlineWidth = width)
                 .SetTarget(outline)
                 .SetLoops(-1, LoopType.Yoyo);
+        }
+
+        //Quick & dirty
+        private void Update()
+        {
+            outline.enabled = outline.OutlineWidth > 0f;
         }
     }
 }

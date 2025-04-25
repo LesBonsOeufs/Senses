@@ -31,6 +31,7 @@ public class Leg : MonoBehaviour
     [Foldout("Advanced"), SerializeField] private float maxPerchedRayDist = 0.7f;
     //Currently should stay at 0, for preventing passing tip through wall
     [Foldout("Advanced"), SerializeField] private float tipPassOver = 0.55f / 2.0f;
+    [Foldout("Advanced"), SerializeField] private LayerMask layerMask = ~0;
 
     //Used for forwardRay's direction
     private Vector3 lastPos;
@@ -130,7 +131,7 @@ public class Leg : MonoBehaviour
 
     private RaycastHit? Raycast(Ray ray, float maxDistance)
     {
-        if (Physics.Raycast(ray, out RaycastHit lHit, maxDistance))
+        if (Physics.Raycast(ray, out RaycastHit lHit, maxDistance, layerMask))
             return lHit;
 
         return null;
