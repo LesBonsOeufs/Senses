@@ -7,8 +7,7 @@ using UnityEngine.Serialization;
 using NaughtyAttributes;
 using System.Linq;
 
-[RequireComponent(typeof(RawImage))]
-public class RTGraphicRaycaster : BaseRaycaster
+public class RTGraphicRaycaster : RTRaycasterBase
 {
     #region Copied from GraphicRaycaster.cs
 
@@ -140,45 +139,18 @@ public class RTGraphicRaycaster : BaseRaycaster
 
     #endregion
 
-    [Tooltip("Source camera of the render texture"), SerializeField, ReadOnly]
-    private Camera sourceCamera;
     [Tooltip("Canvas to read from"), SerializeField, ReadOnly]
     private Canvas sourceCanvas;
-
-    private RawImage rawImage;
 
     protected override void Start()
     {
         base.Start();
-        rawImage = GetComponent<RawImage>();
-
-        if (rawImage.texture is RenderTexture lRT)
-        {
-            sourceCamera = lRT.FindSourceCamera();
-            sourceCanvas = FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None)
-                .Where(canvas => canvas.worldCamera == sourceCamera).First();
-        }
-        else
-            Debug.LogError("No render texture assigned to the RawImage!");
+        sourceCanvas = FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+            .Where(canvas => canvas.worldCamera == sourceCamera).First();
     }
 
-    public override void Raycast(PointerEventData eventData, List<RaycastResult> resultAppendList)
+    protected override void RaycastFromRTUV(Vector2 uv, PointerEventData eventData, List<RaycastResult> resultAppendList)
     {
-        if (rawImage.texture == null)
-            return;
-
-        RectTransform lRectTransform = rawImage.rectTransform;
-
-        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(lRectTransform, eventData.position, 
-            eventData.pressEventCamera, out Vector2 lLocalPoint))
-            return;
-        
-        // Normalize local point to [0,1] UV
-        Vector2 lUv = rawImage.rectTransform.LocalToViewportPoint(lLocalPoint);
-
-        if (lUv.x < 0 || lUv.x > 1 || lUv.y < 0 || lUv.y > 1)
-            return;
-
         IList<Graphic> lCanvasGraphics = GraphicRegistry.GetRaycastableGraphicsForCanvas(sourceCanvas);
 
         if (lCanvasGraphics == null || lCanvasGraphics.Count == 0)
@@ -186,13 +158,13 @@ public class RTGraphicRaycaster : BaseRaycaster
 
         Camera lCurrentEventCamera = eventCamera;
         float lHitDistance = float.MaxValue;
-        Ray lRay = new Ray();
+        Ray lRay = new();
 
         if (lCurrentEventCamera != null)
-            lRay = lCurrentEventCamera.ViewportPointToRay(lUv);
+            lRay = lCurrentEventCamera.ViewportPointToRay(uv);
 
         m_RaycastResults.Clear();
-        Raycast(lCurrentEventCamera, lCurrentEventCamera.ViewportToScreenPoint(lUv), lCanvasGraphics, m_RaycastResults);
+        Raycast(lCurrentEventCamera, lCurrentEventCamera.ViewportToScreenPoint(uv), lCanvasGraphics, m_RaycastResults);
 
         int lTotalCount = m_RaycastResults.Count;
 

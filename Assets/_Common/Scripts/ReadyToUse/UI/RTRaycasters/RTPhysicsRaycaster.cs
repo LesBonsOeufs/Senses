@@ -1,11 +1,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using System.Collections.Generic;
-using NaughtyAttributes;
 
-[RequireComponent(typeof(RawImage))]
-public class RTPhysicsRaycaster : BaseRaycaster
+public class RTPhysicsRaycaster : RTRaycasterBase
 {
     #region Copied from PhysicsRaycaster.cs
 
@@ -41,14 +38,6 @@ public class RTPhysicsRaycaster : BaseRaycaster
 
     #endregion
 
-    [Tooltip("Source camera of the render texture"), SerializeField, ReadOnly]
-    private Camera sourceCamera;
-    [SerializeField, ReadOnly] private GraphicRaycaster graphicRaycaster;
-
-    private RawImage rawImage;
-    //Used for not directly disabling raycaster during Raycast method (throws an error)
-    private bool shouldGraphicRaycasterBeEnabled = true;
-
     public override Camera eventCamera
     {
         get
@@ -79,49 +68,9 @@ public class RTPhysicsRaycaster : BaseRaycaster
         }
     }
 
-    protected override void Start()
+    protected override void RaycastFromRTUV(Vector2 uv, PointerEventData eventData, List<RaycastResult> resultAppendList)
     {
-        base.Start();
-        rawImage = GetComponent<RawImage>();
-
-        if (rawImage.texture is RenderTexture lRT)
-        {
-            sourceCamera = lRT.FindSourceCamera();
-            graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
-        }
-        else
-            Debug.LogError("No render texture assigned to the RawImage!");
-    }
-
-    private void LateUpdate()
-    {
-        // Must disable used graphic raycaster to avoid unwinnable conflicts (this raycaster would be blocked)
-        graphicRaycaster.enabled = shouldGraphicRaycasterBeEnabled;
-    }
-
-    public override void Raycast(PointerEventData eventData, List<RaycastResult> resultAppendList)
-    {
-        if (rawImage.texture == null)
-            return;
-
-        RectTransform lRectTransform = rawImage.rectTransform;
-
-        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(lRectTransform, eventData.position, 
-            eventData.pressEventCamera, out Vector2 lLocalPoint))
-            return;
-        
-        // Normalize local point to [0,1] UV
-        Vector2 lUv = rawImage.rectTransform.LocalToViewportPoint(lLocalPoint);
-
-        if (lUv.x < 0 || lUv.x > 1 || lUv.y < 0 || lUv.y > 1)
-        {
-            shouldGraphicRaycasterBeEnabled = true;
-            return;
-        }
-
-        shouldGraphicRaycasterBeEnabled = false;
-
-        Ray lRay = sourceCamera.ViewportPointToRay(new Vector3(lUv.x, lUv.y, 0));
+        Ray lRay = sourceCamera.ViewportPointToRay(new Vector3(uv.x, uv.y, 0));
 
         // Use Physics.RaycastAll to get all hits
         RaycastHit[] lHits = Physics.RaycastAll(lRay, sourceCamera.farClipPlane, finalEventMask);

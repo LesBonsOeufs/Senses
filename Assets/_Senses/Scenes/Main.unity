@@ -19969,11 +19969,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WindowDoor
       objectReference: {fileID: 0}
-    - target: {fileID: 1564503651644448090, guid: 9bd03c8989d316e41bda6871593f68a6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1819984118190646013, guid: 9bd03c8989d316e41bda6871593f68a6,
         type: 3}
       propertyPath: m_Pivot.x
