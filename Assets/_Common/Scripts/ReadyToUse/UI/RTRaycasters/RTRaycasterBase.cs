@@ -38,12 +38,21 @@ public abstract class RTRaycasterBase : BaseRaycaster
             Debug.LogError("No render texture assigned to the RawImage!");
     }
 
+    private bool IsTopmost(PointerEventData eventData)
+    {
+        List<RaycastResult> lResults = new();
+        //Could be optimized for being called once per frame per graphicRaycaster disabled by RTRaycasters
+        graphicRaycaster.Raycast(eventData, lResults);
+        return lResults.Count != 0 && lResults[0].gameObject == rawImage.gameObject;
+    }
+
     public sealed override void Raycast(PointerEventData eventData, List<RaycastResult> resultAppendList)
     {
+        pointerIsDown = eventData.eligibleForClick;
+
         if (rawImage.texture == null)
             return;
 
-        pointerIsDown = eventData.eligibleForClick;
         RectTransform lRectTransform = rawImage.rectTransform;
 
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(lRectTransform, eventData.position,
@@ -53,7 +62,8 @@ public abstract class RTRaycasterBase : BaseRaycaster
         // Normalize local point to [0,1] UV
         Vector2 lUv = rawImage.rectTransform.LocalToViewportPoint(lLocalPoint);
 
-        if (lUv.x < 0 || lUv.x > 1 || lUv.y < 0 || lUv.y > 1)
+        if (lUv.x < 0 || lUv.x > 1 || lUv.y < 0 || lUv.y > 1 ||
+            !IsTopmost(eventData))
         {
             pointerIsIn = false;
             return;
