@@ -9,6 +9,7 @@ namespace Root
         [Foldout("Animation"), SerializeField] protected float tweenDuration = 0.2f;
         [Foldout("Animation"), SerializeField] private float hoverValue = 5f;
         [Foldout("Animation"), SerializeField] private float interactValue = 10f;
+        [Foldout("Animation"), SerializeField] protected float loopValue = 14f;
 
         protected abstract Tweener InteractAnimate(float finalValue);
         protected abstract Tweener InUseAnimateLoop();

@@ -34,7 +34,6 @@ namespace Root
 
         public void InsertInteraction(string input, Interpreter.SResult result)
         {
-
             TextMeshProUGUI lInputLine = null;
             if (input != null)
             {
@@ -46,14 +45,29 @@ namespace Root
             TextMeshProUGUI lOutputLine = Instantiate(writtenLinePrefab, transform);
             lOutputLine.text = result.output;
 
-            if (result.directory != null)
-                directoryTmp.text = $"X:\\{result.directory}>";
-
-            if (result.windowFromDirectory != null)
+            // Could be moved elsewhere
+            if (result.type == NodeManager.EResult.POSITIONAL)
             {
-                windowPuller.windowPrefab = result.windowFromDirectory;
-                directoryTmp.text = $"<color=yellow>{directoryTmp.text}</color>";
+                if (result.directory != null)
+                    directoryTmp.text = $"X:\\{result.directory}>";
+
+                if (result.windowFromDirectory != null)
+                {
+                    if (result.windowFromDirectory != windowPuller.windowPrefab)
+                    {
+                        windowPuller.windowPrefab = result.windowFromDirectory;
+                        windowPuller.WindowOut();
+                    }
+
+                    directoryTmp.text = $"<color=yellow>{directoryTmp.text}</color>";
+                }
+                else
+                {
+                    windowPuller.windowPrefab = null;
+                    windowPuller.WindowOut();
+                }
             }
+            //
 
             directoryTmp.transform.SetAsLastSibling();
             Interpreter.Instance.transform.SetAsLastSibling();

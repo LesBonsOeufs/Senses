@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,8 @@ namespace Root
         public const string USER_INPUT_TAG = "[input]";
 
         [SerializeField] private TextMeshProUGUI interpreterTmp;
+        [Foldout("Animation"), SerializeField] private float waitingDuration = 2f;
+        [Foldout("Animation"), SerializeField] private float waiterCharUpdDuration = 0.2f;
 
         public async Awaitable<SResult> Execute(string input)
         {
@@ -20,8 +23,9 @@ namespace Root
             SResult lResult = new();
             string lWaitingPrefix = "";
             string lOutput = "";
+            lResult.type = NodeManager.Instance.TryRouteKeyword(input, out NodeInfo lNode);
 
-            switch (NodeManager.Instance.TryRouteKeyword(input, out NodeInfo lNode))
+            switch (lResult.type)
             {
                 case NodeManager.EResult.POSITIONAL:
                     lResult.directory = lNode.Directory;
@@ -38,8 +42,7 @@ namespace Root
                     lOutput = $"QuickMail received: {lNode.name}";
                     break;
                 case NodeManager.EResult.FAIL:
-                    lNode = NodeManager.Instance.Current;
-                    lOutput = lNode.KeywordFailText;
+                    lOutput = NodeManager.Instance.Current.KeywordFailText;
                     break;
             }
 
@@ -52,7 +55,7 @@ namespace Root
 
                 try
                 {
-                    await Awaitable.WaitForSecondsAsync(3f, lLinkedCTS.Token);
+                    await Awaitable.WaitForSecondsAsync(waitingDuration, lLinkedCTS.Token);
                 }
                 finally
                 {
@@ -75,7 +78,7 @@ namespace Root
                 {
                     interpreterTmp.text = $"{prefix}{lLoopingTexts[lIndex++]}";
                     lIndex %= lLoopingTexts.Length;
-                    await Awaitable.WaitForSecondsAsync(0.2f, destroyCancellationToken);
+                    await Awaitable.WaitForSecondsAsync(waiterCharUpdDuration, destroyCancellationToken);
                 }
             }
             finally
@@ -91,6 +94,7 @@ namespace Root
 
         public struct SResult
         {
+            public NodeManager.EResult type;
             public string directory;
             public WindowOpenCloseAnim windowFromDirectory;
             public string output;

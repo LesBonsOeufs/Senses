@@ -132,13 +132,18 @@ namespace Root
             window.OnStartOut += Window_OnStartOut;
         }
 
-        private void SourceWindow_OnStartOut(float duration)
+        public void WindowOut()
         {
             if (window == null)
                 return;
 
             window.Out();
             window = null;
+        }
+
+        private void SourceWindow_OnStartOut(float duration)
+        {
+            WindowOut();
         }
 
         protected virtual void Window_OnStartOut(float duration)
@@ -160,8 +165,7 @@ namespace Root
 
                 if (lViewportPoint.x > 1f || lViewportPoint.x < 0f || lViewportPoint.y > 1f || lViewportPoint.y < 0f)
                 {
-                    window.Out();
-                    window = null;
+                    WindowOut();
                 }
             }
         }

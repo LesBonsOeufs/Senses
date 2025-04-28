@@ -40,7 +40,7 @@ namespace Root
             tmp.DOKill();
             Glow = 0f;
 
-            return DOVirtual.Float(Glow, 1f, tweenDuration * 3f, glow => Glow = glow)
+            return DOVirtual.Float(Glow, loopValue, tweenDuration * 3f, glow => Glow = glow)
                 .SetTarget(tmp)
                 .SetLoops(-1, LoopType.Yoyo);
         }

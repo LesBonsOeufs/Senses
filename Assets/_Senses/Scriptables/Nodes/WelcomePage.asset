@@ -14,20 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <IsWarpInstant>k__BackingField: 1
   <WarpingText>k__BackingField: Processing
-  <AccessText>k__BackingField: '<color=green>Global control</color>
+  <AccessText>k__BackingField: '<color=green>---Global control---</color>
 
-    Open the
-    door.
+    0
+    - Door
 
+    1 - Package sorting
 
-    0 - Door
+    2 - Package check
 
-    1 - Packages sorting
-
-    2 - Packages verification
-
-    3
-    - Mail'
+    3 - Mail'
   <IsPositional>k__BackingField: 1
   <Routes>k__BackingField:
   - accessKeyword: 0
@@ -39,6 +35,9 @@ MonoBehaviour:
   - accessKeyword: 2
     isPrevious: 0
     to: {fileID: 11400000, guid: 7da42ebbcd5106c4ca68d2f833522028, type: 2}
+  - accessKeyword: 3
+    isPrevious: 0
+    to: {fileID: 11400000, guid: 0723d6d0cd2494c4a8f67b843e7ff703, type: 2}
   <KeywordFailText>k__BackingField: Index not assigned
   <Directory>k__BackingField: Main
   <WindowFromDirectory>k__BackingField: {fileID: 0}

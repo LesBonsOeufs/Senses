@@ -27,7 +27,7 @@ namespace Root
         {
             outline.DOKill();
             outline.OutlineWidth = 10f;
-            return DOVirtual.Float(outline.OutlineWidth, 20f, tweenDuration * 2f, width => outline.OutlineWidth = width)
+            return DOVirtual.Float(outline.OutlineWidth, loopValue, tweenDuration * 2f, width => outline.OutlineWidth = width)
                 .SetTarget(outline)
                 .SetLoops(-1, LoopType.Yoyo);
         }

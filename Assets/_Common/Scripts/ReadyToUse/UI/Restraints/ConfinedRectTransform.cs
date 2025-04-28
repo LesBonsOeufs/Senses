@@ -18,7 +18,7 @@ public class ConfinedRectTransform : MonoBehaviour
                 .Where(canvas => canvas.renderMode == RenderMode.ScreenSpaceOverlay).First().GetComponent<RectTransform>();
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         rectTransform.anchoredPosition = ClampPosition(confiner.rect);
     }
