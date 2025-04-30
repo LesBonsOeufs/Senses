@@ -16,11 +16,11 @@ MonoBehaviour:
   <WarpingText>k__BackingField: Entering <color=green>Mail</color>
   <AccessText>k__BackingField: '<color=green>---Mail---</color>
 
-    0 - [DebugTip]
+    0 - [Opening
+    paths]
 
 
-    Type
-    back to leave'
+    <color=orange>Type back to return to Global control</color>'
   <IsPositional>k__BackingField: 1
   <Routes>k__BackingField:
   - accessKeyword: back

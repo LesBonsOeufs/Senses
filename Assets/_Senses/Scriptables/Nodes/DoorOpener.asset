@@ -17,8 +17,8 @@ MonoBehaviour:
   <AccessText>k__BackingField: '<color=green>---Door---</color>
 
 
-    Type back to
-    leave'
+    <color=orange>Type
+    back to return to Global control</color>'
   <IsPositional>k__BackingField: 1
   <Routes>k__BackingField:
   - accessKeyword: back
