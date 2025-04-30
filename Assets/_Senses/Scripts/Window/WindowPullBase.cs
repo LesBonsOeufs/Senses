@@ -1,5 +1,6 @@
 using DG.Tweening;
 using NaughtyAttributes;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,11 +12,11 @@ namespace Root
         IPointerUpHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
     {
         public WindowOpenCloseAnim windowPrefab;
-        [SerializeField, Tooltip("The camera rendering this object")] private Camera renderingCamera;
         [SerializeField] private Image linePrefab;
 
         [Foldout("Advanced"), SerializeField] private Vector2 positionShift;
 
+        private Camera sourceCamera = null;
         private WindowOpenCloseAnim sourceWindow;
         private RectTransform sourceWindowRectTransform;
 
@@ -27,24 +28,18 @@ namespace Root
         private Vector2 PositionOnSourceWindow()
         {
             Vector2 lPos = positionShift + sourceWindowRectTransform.ViewportToLocalPoint(
-                renderingCamera.WorldToViewportPoint(transform.position));
+                sourceCamera.WorldToViewportPoint(transform.position));
 
             return lPos;
         }
 
-        private WindowOpenCloseAnim GetCurrentSourceWindow()
+        private void UpdateSourceWindowNCamera()
         {
-            WindowOpenCloseAnim[] lWindows = FindObjectsByType<WindowOpenCloseAnim>(FindObjectsSortMode.None);
+            RTRaycasterBase lUsedRTRaycaster = FindObjectsByType<RTRaycasterBase>(FindObjectsSortMode.None)
+                .Where(raycaster => raycaster.pointerIsIn).First();
 
-            foreach (WindowOpenCloseAnim lWindow in lWindows)
-            {
-                RenderTexture lRenderTexture = lWindow.GetComponentInChildren<RawImage>().texture as RenderTexture;
-
-                if (lRenderTexture != null && lRenderTexture == renderingCamera.targetTexture)
-                    return lWindow;
-            }
-
-            return null;
+            sourceWindow = lUsedRTRaycaster.GetComponentInParent<WindowOpenCloseAnim>();
+            sourceCamera = (lUsedRTRaycaster.GetComponent<RawImage>().texture as RenderTexture).FindSourceCamera();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -99,7 +94,7 @@ namespace Root
                 sourceWindow.OnStartOut -= SourceWindow_OnStartOut;
 
             //Get source window from renderingCamera's renderTexture
-            sourceWindow = GetCurrentSourceWindow();
+            UpdateSourceWindowNCamera();
             sourceWindowRectTransform = sourceWindow.GetComponent<RectTransform>();
             sourceWindow.OnStartOut += SourceWindow_OnStartOut;
 
@@ -139,6 +134,9 @@ namespace Root
 
             window.Out();
             window = null;
+
+            sourceWindow = null;
+            sourceCamera = null;
         }
 
         private void SourceWindow_OnStartOut(float duration)
@@ -161,7 +159,7 @@ namespace Root
             if (window != null && line != null)
             {
                 line.rectTransform.Line(PositionOnSourceWindow(), sourceWindowRectTransform.InverseTransformPoint(window.transform.position), 24f);
-                Vector2 lViewportPoint = renderingCamera.WorldToViewportPoint(transform.position);
+                Vector2 lViewportPoint = sourceCamera.WorldToViewportPoint(transform.position);
 
                 if (lViewportPoint.x > 1f || lViewportPoint.x < 0f || lViewportPoint.y > 1f || lViewportPoint.y < 0f)
                 {
