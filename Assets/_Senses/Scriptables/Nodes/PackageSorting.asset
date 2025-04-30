@@ -23,7 +23,10 @@ MonoBehaviour:
     or 3 to open way to an output.
 
     <color=red><Emergency only></color> Type
-    private code for physical assistant.'
+    private code for physical assistant.
+
+
+    Type back to leave'
   <IsPositional>k__BackingField: 1
   <Routes>k__BackingField:
   - accessKeyword: back

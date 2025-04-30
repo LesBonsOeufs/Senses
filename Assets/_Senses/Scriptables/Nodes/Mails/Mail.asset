@@ -16,26 +16,19 @@ MonoBehaviour:
   <WarpingText>k__BackingField: Entering <color=green>Mail</color>
   <AccessText>k__BackingField: '<color=green>---Mail---</color>
 
-    1 - [Last Message]
+    0 - [DebugTip]
 
-    2
-    - [One more try]
 
-    3 - [Hello]'
+    Type
+    back to leave'
   <IsPositional>k__BackingField: 1
   <Routes>k__BackingField:
   - accessKeyword: back
     isPrevious: 1
     to: {fileID: 0}
-  - accessKeyword: 1
-    isPrevious: 0
-    to: {fileID: 11400000, guid: aebc723f60e747542833bfab1a1b394e, type: 2}
-  - accessKeyword: 2
+  - accessKeyword: 0
     isPrevious: 0
     to: {fileID: 11400000, guid: a6dcedc46416e654bb1e965ce7f1eca2, type: 2}
-  - accessKeyword: 3
-    isPrevious: 0
-    to: {fileID: 11400000, guid: a3ba09bae502cab42a946ee6d1f4063e, type: 2}
   <KeywordFailText>k__BackingField: Index not assigned
   <Directory>k__BackingField: Mail
   <WindowFromDirectory>k__BackingField: {fileID: 0}

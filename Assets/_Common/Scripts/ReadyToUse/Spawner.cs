@@ -13,7 +13,7 @@ namespace Root
 
         public void SpawnOneRandom()
         {
-            Instantiate(prefabs[Random.Range(0, prefabs.Length)], transform.position, Quaternion.identity);
+            Instantiate(prefabs[Random.Range(0, prefabs.Length)], transform.position, transform.rotation);
         }
     }
 }

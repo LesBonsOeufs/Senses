@@ -50,5 +50,10 @@ namespace Root
 
             input = lVector / lBotToTopDistance;
         }
+
+        private void OnDestroy()
+        {
+            controllable.input = Vector2.zero;
+        }
     }
 }

@@ -17,7 +17,7 @@ public abstract class RTRaycasterBase : BaseRaycaster
     private RawImage rawImage;
 
     //Used for not directly disabling raycaster during Raycast method (throws an error)
-    private bool pointerIsIn;
+    public bool pointerIsIn;
     private bool lastPointerIsIn;
 
     //Used for forwarding
